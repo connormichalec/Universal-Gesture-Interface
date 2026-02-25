@@ -3399,7 +3399,7 @@
 	)
 	(text "Crystal oscillator SHOULD BE PLACED NEXT TO MCU AWAY FROM DATA LINES\n"
 		(exclude_from_sim no)
-		(at 199.39 98.044 0)
+		(at 193.802 98.044 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -3468,12 +3468,6 @@
 		(uuid "6fcad305-396a-4163-97a0-0b14a9d3ab6a")
 	)
 	(junction
-		(at 271.78 76.2)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "77a75823-5c31-4f41-88e3-60d904eca1b2")
-	)
-	(junction
 		(at 133.35 110.49)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3496,6 +3490,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "dc00007c-03fc-40b8-9b9a-e000594dc27e")
+	)
+	(junction
+		(at 60.96 59.69)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "dcc28c38-ecd4-436e-b0b9-ef744bc10ed4")
 	)
 	(junction
 		(at 153.67 110.49)
@@ -3669,6 +3669,16 @@
 	)
 	(wire
 		(pts
+			(xy 50.8 71.12) (xy 53.34 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "046013c9-e809-4877-9f06-e7a82b2ee6c2")
+	)
+	(wire
+		(pts
 			(xy 186.69 69.85) (xy 186.69 72.39)
 		)
 		(stroke
@@ -3676,6 +3686,16 @@
 			(type default)
 		)
 		(uuid "0b20a0ae-57fe-4887-a523-b30ea4750fe2")
+	)
+	(wire
+		(pts
+			(xy 50.8 68.58) (xy 53.34 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1a6b67cd-c222-430c-93d6-563c4994160d")
 	)
 	(wire
 		(pts
@@ -3756,16 +3776,6 @@
 			(type default)
 		)
 		(uuid "4bdbfd63-cb0d-4591-8036-671eb6027cc4")
-	)
-	(wire
-		(pts
-			(xy 269.24 76.2) (xy 271.78 76.2)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "50225061-ef6f-499e-b4a6-aef24ba6383d")
 	)
 	(wire
 		(pts
@@ -3889,6 +3899,16 @@
 	)
 	(wire
 		(pts
+			(xy 60.96 59.69) (xy 60.96 66.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "83df582a-463b-48c4-8f78-2e2ef3fa2ec5")
+	)
+	(wire
+		(pts
 			(xy 186.69 120.65) (xy 195.58 120.65)
 		)
 		(stroke
@@ -3966,6 +3986,16 @@
 			(type default)
 		)
 		(uuid "ae1a57fe-6876-4266-b528-df41f926c988")
+	)
+	(wire
+		(pts
+			(xy 60.96 57.15) (xy 60.96 59.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b5ce66ef-20b1-4205-bc0a-94420d887ad0")
 	)
 	(wire
 		(pts
@@ -4117,6 +4147,16 @@
 		)
 		(uuid "0df86526-cdf6-40e9-b2d9-eae9c89a0dfc")
 	)
+	(label "USB_D-"
+		(at 50.8 68.58 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "10663a8f-e3f9-4fb2-a576-6ac6abd95ee3")
+	)
 	(label "ADC_FSR1"
 		(at 138.43 110.49 0)
 		(effects
@@ -4167,6 +4207,16 @@
 		)
 		(uuid "1dd08b08-1743-4da3-a825-5211b4fe6d0e")
 	)
+	(label "USB_D+"
+		(at 50.8 71.12 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "251f984e-7698-4085-a303-23a8d0b8046e")
+	)
 	(label "GND"
 		(at 130.81 33.02 0)
 		(effects
@@ -4197,16 +4247,6 @@
 		)
 		(uuid "275bff99-b1d3-4b7c-aae8-daea4805b7b2")
 	)
-	(label "USB_D-"
-		(at 271.78 78.74 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "2ce3144d-b858-4534-a42f-bf0183c237da")
-	)
 	(label "VCC"
 		(at 187.96 27.94 90)
 		(effects
@@ -4236,16 +4276,6 @@
 			(justify left bottom)
 		)
 		(uuid "4a9066fb-9546-4717-a001-2e62598bd7fd")
-	)
-	(label "USB_VBUS_5V"
-		(at 269.24 76.2 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "4ab07ef8-bf84-4858-bdaf-5a56c9f7dbe4")
 	)
 	(label "SPI_CS"
 		(at 127 80.01 180)
@@ -4387,16 +4417,6 @@
 		)
 		(uuid "6c169338-42c6-422a-a2f0-894100e8921b")
 	)
-	(label "USB_D+"
-		(at 271.78 81.28 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "6c1c4676-b0f9-4c6d-8bc8-72e2c59f4ddb")
-	)
 	(label "GND"
 		(at 140.97 33.02 0)
 		(effects
@@ -4446,6 +4466,16 @@
 			(justify right bottom)
 		)
 		(uuid "7c32f5ed-97cd-4600-9fa1-955534bfc105")
+	)
+	(label "USB_VBUS_5V"
+		(at 60.96 57.15 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "7c87191f-6d36-4e96-a08c-5a9e03fbc1e3")
 	)
 	(label "VCC"
 		(at 153.67 101.6 90)
@@ -5051,16 +5081,15 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 271.78 83.82 270)
+		(at 60.96 73.66 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "18feed52-0984-4794-ba55-f3535da8e53e")
 		(property "Reference" "#PWR03"
-			(at 265.43 83.82 0)
+			(at 54.61 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5069,7 +5098,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 267.97 83.8199 90)
+			(at 62.484 75.946 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5078,7 +5107,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 271.78 83.82 0)
+			(at 60.96 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5087,7 +5116,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 271.78 83.82 0)
+			(at 60.96 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5096,7 +5125,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 271.78 83.82 0)
+			(at 60.96 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5801,34 +5830,32 @@
 		)
 	)
 	(symbol
-		(lib_id "power:PWR_FLAG")
-		(at 271.78 76.2 0)
+		(lib_id "Device:R")
+		(at 57.15 71.12 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "621abd23-5dc0-4d58-a4a5-e751617ae6b8")
-		(property "Reference" "#FLG03"
-			(at 271.78 74.295 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "PWR_FLAG"
-			(at 271.78 71.12 0)
+		(uuid "5e92c652-e969-4637-bfa8-94768786353e")
+		(property "Reference" "R2"
+			(at 52.832 73.152 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" ""
-			(at 271.78 76.2 0)
+		(property "Value" "22 Ohm"
+			(at 59.182 71.374 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
+			(at 57.15 72.898 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5837,7 +5864,75 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 271.78 76.2 0)
+			(at 57.15 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 57.15 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "cba1ef78-f4ed-48ad-9ac7-89ca67a64cbe")
+		)
+		(pin "2"
+			(uuid "6da5d0eb-3a3b-43ee-a618-81087877bfde")
+		)
+		(instances
+			(project "testboard_v2"
+				(path "/686231c6-370e-4e0e-9221-a0cdf4fcd39d"
+					(reference "R2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 60.96 59.69 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "621abd23-5dc0-4d58-a4a5-e751617ae6b8")
+		(property "Reference" "#FLG03"
+			(at 62.865 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 70.104 60.198 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 60.96 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 60.96 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5846,7 +5941,7 @@
 			)
 		)
 		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 271.78 76.2 0)
+			(at 60.96 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6213,16 +6308,15 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x04")
-		(at 276.86 78.74 0)
+		(at 66.04 68.58 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "6bb7de6b-69e6-4517-91c3-d4f68f1d383d")
 		(property "Reference" "J6"
-			(at 279.4 78.7399 0)
+			(at 68.58 68.5799 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6231,7 +6325,7 @@
 			)
 		)
 		(property "Value" "USB_Conn"
-			(at 279.4 81.2799 0)
+			(at 68.58 71.1199 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6240,7 +6334,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
-			(at 276.86 78.74 0)
+			(at 76.2 80.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6248,7 +6342,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 276.86 78.74 0)
+			(at 66.04 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6257,7 +6351,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 276.86 78.74 0)
+			(at 66.04 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6278,7 +6372,7 @@
 			(uuid "05a080c1-dd0f-4bd7-9472-48d5d3694aac")
 		)
 		(instances
-			(project ""
+			(project "testboard_v2"
 				(path "/686231c6-370e-4e0e-9221-a0cdf4fcd39d"
 					(reference "J6")
 					(unit 1)
@@ -8043,6 +8137,73 @@
 			(project "testboard_v1"
 				(path "/686231c6-370e-4e0e-9221-a0cdf4fcd39d"
 					(reference "J10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 57.15 68.58 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e1da78c8-23bc-4b4c-b29d-80fb9fd7785a")
+		(property "Reference" "R1"
+			(at 52.578 66.802 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "22 Ohm"
+			(at 58.928 68.58 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
+			(at 57.15 70.358 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 57.15 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 57.15 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "d60c4159-2dfc-4ab1-a225-ebee905550b0")
+		)
+		(pin "2"
+			(uuid "3c83dfb1-4729-4e60-a1c0-e5c7e8e37526")
+		)
+		(instances
+			(project "testboard_v2"
+				(path "/686231c6-370e-4e0e-9221-a0cdf4fcd39d"
+					(reference "R1")
 					(unit 1)
 				)
 			)
