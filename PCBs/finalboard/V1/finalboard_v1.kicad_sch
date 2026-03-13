@@ -3651,7 +3651,7 @@
 	)
 	(wire
 		(pts
-			(xy 50.8 71.12) (xy 53.34 71.12)
+			(xy 33.02 71.12) (xy 35.56 71.12)
 		)
 		(stroke
 			(width 0)
@@ -3691,7 +3691,7 @@
 	)
 	(wire
 		(pts
-			(xy 50.8 68.58) (xy 53.34 68.58)
+			(xy 33.02 68.58) (xy 35.56 68.58)
 		)
 		(stroke
 			(width 0)
@@ -4400,7 +4400,7 @@
 		(uuid "0e1150a2-26bb-49d4-8ca5-1a32ca0b6adf")
 	)
 	(label "USB_D-"
-		(at 50.8 68.58 180)
+		(at 33.02 68.58 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4510,7 +4510,7 @@
 		(uuid "2183baf0-2567-474a-b7bb-da9d64ff5f00")
 	)
 	(label "USB_D+"
-		(at 50.8 71.12 180)
+		(at 33.02 71.12 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4618,6 +4618,16 @@
 			(justify left bottom)
 		)
 		(uuid "3ee83602-35c6-49a8-852a-1a309b3f1c3a")
+	)
+	(label "USB+"
+		(at 60.96 71.12 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "3f1e08fd-2cca-4b3f-9e5a-3269039af4c2")
 	)
 	(label "FLEX_3-"
 		(at 66.04 124.46 180)
@@ -5129,6 +5139,16 @@
 		)
 		(uuid "a802ba65-a703-45d7-b939-6b0d2fb9ba12")
 	)
+	(label "USB-"
+		(at 60.96 68.58 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "aac7e3a5-0e5f-4105-80f9-f0ecab4aa557")
+	)
 	(label "VCC"
 		(at 168.91 180.34 0)
 		(effects
@@ -5359,6 +5379,16 @@
 		)
 		(uuid "e01df890-e488-4996-8978-be840e29f188")
 	)
+	(label "USB-"
+		(at 43.18 68.58 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "e0c79f48-9110-429c-b31b-14ff77941172")
+	)
 	(label "VCC"
 		(at 227.33 34.29 90)
 		(effects
@@ -5448,6 +5478,16 @@
 			(justify left bottom)
 		)
 		(uuid "f20f9cea-9f9e-4805-8ed2-f2a240117f03")
+	)
+	(label "USB+"
+		(at 43.18 71.12 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "fb1febf0-84f5-4595-9c84-af372e8f34fc")
 	)
 	(label "USB_VBUS_5V"
 		(at 128.27 180.34 180)
@@ -6570,7 +6610,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 57.15 71.12 90)
+		(at 39.37 71.12 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6578,7 +6618,7 @@
 		(dnp no)
 		(uuid "5e92c652-e969-4637-bfa8-94768786353e")
 		(property "Reference" "R2"
-			(at 52.832 73.152 90)
+			(at 35.052 73.152 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6586,7 +6626,7 @@
 			)
 		)
 		(property "Value" "22 Ohm"
-			(at 58.928 73.66 90)
+			(at 41.148 73.66 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6594,7 +6634,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 57.15 72.898 90)
+			(at 39.37 72.898 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6603,7 +6643,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 57.15 71.12 0)
+			(at 39.37 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6612,7 +6652,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 57.15 71.12 0)
+			(at 39.37 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9297,7 +9337,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 57.15 68.58 90)
+		(at 39.37 68.58 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -9305,7 +9345,7 @@
 		(dnp no)
 		(uuid "e1da78c8-23bc-4b4c-b29d-80fb9fd7785a")
 		(property "Reference" "R1"
-			(at 52.578 66.802 90)
+			(at 34.798 66.802 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9313,7 +9353,7 @@
 			)
 		)
 		(property "Value" "22 Ohm"
-			(at 58.674 67.056 90)
+			(at 40.894 67.056 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9321,7 +9361,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 57.15 70.358 90)
+			(at 39.37 70.358 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9330,7 +9370,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 57.15 68.58 0)
+			(at 39.37 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9339,7 +9379,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 57.15 68.58 0)
+			(at 39.37 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
