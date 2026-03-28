@@ -12,7 +12,7 @@ RM := rm -rf
 -include USB_DEVICE/Target/subdir.mk
 -include USB_DEVICE/App/subdir.mk
 -include Middlewares/ST/STM32_USB_Device_Library/Core/Src/subdir.mk
--include Middlewares/ST/STM32_USB_Device_Library/Class/HID/Src/subdir.mk
+-include Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/subdir.mk
 -include Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
@@ -64,8 +64,8 @@ all: main-build
 main-build: universal_gesture_interface_test.elf secondary-outputs
 
 # Tool invocations
-universal_gesture_interface_test.elf universal_gesture_interface_test.map: $(OBJS) $(USER_OBJS) C:\Users\conno\Documents\Stuff\UIUC\2025-2026\SPRING\ECE445\Universal-Gesture-Interface\STM32\universal_gesture_interface\STM32F405RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "universal_gesture_interface_test.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\conno\Documents\Stuff\UIUC\2025-2026\SPRING\ECE445\Universal-Gesture-Interface\STM32\universal_gesture_interface\STM32F405RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="universal_gesture_interface_test.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+universal_gesture_interface_test.elf universal_gesture_interface_test.map: $(OBJS) $(USER_OBJS) C:\Users\kobes\OneDrive\Desktop\School\Spring_2026\ECE445\Universal-Gesture-Interface\STM32\universal_gesture_interface\STM32F405RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "universal_gesture_interface_test.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\kobes\OneDrive\Desktop\School\Spring_2026\ECE445\Universal-Gesture-Interface\STM32\universal_gesture_interface\STM32F405RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="universal_gesture_interface_test.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
