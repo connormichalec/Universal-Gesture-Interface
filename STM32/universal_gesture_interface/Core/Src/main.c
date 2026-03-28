@@ -136,14 +136,16 @@ int main(void)
     //uint8_t tx[2];
     //uint8_t rx[2];
 
-    //tx[0] = 0x8F;   // WHO_AM_I | 0x80 (read bit)
-    //tx[1] = 0x00;   // dummy byte
 
-    //CS_LOW();
-    //HAL_SPI_TransmitReceive(&hspi1, tx, rx, 2, HAL_MAX_DELAY);
-    //CS_HIGH();
+    uint8_t tx[2] = {0x8F, 0x00};   //WHOAMI/Dummy byte
+  	uint8_t rx[2];
 
-    sprintf(buf, "Flex: %d, FSR: %d\r\n", flex_reg, fsr_reg);
+
+    CS_LOW();
+    HAL_SPI_TransmitReceive(&hspi1, tx, rx, 2, HAL_MAX_DELAY);
+    CS_HIGH();
+
+    sprintf(buf, "Flex: %d, FSR: %d SPI rx: %02X\r\n", flex_reg, fsr_reg, rx[1]);
     CDC_Transmit_FS((uint8_t*)buf, strlen(buf));
 
 	HAL_Delay(100);
