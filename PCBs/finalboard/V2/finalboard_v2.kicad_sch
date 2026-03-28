@@ -3520,10 +3520,6 @@
 		(uuid "032bcaad-4434-48dd-9137-cd292f67e808")
 	)
 	(no_connect
-		(at 127 74.93)
-		(uuid "0d9ca9dc-d6d4-4522-8f20-0a4e2c874af7")
-	)
-	(no_connect
 		(at 207.01 80.01)
 		(uuid "0f93a904-4725-49f5-bc33-88adb0bd2c52")
 	)
@@ -3628,8 +3624,8 @@
 		(uuid "de49d498-41cc-4cd5-9e58-9c6a40f39c3b")
 	)
 	(no_connect
-		(at 127 77.47)
-		(uuid "e29760a1-f11f-4ba3-b85e-3e4b0d80fed7")
+		(at 127 67.31)
+		(uuid "e5933da5-4168-42de-8722-fd729eaf0146")
 	)
 	(no_connect
 		(at 207.01 77.47)
@@ -3638,6 +3634,10 @@
 	(no_connect
 		(at 207.01 72.39)
 		(uuid "eb36e5ba-9927-4e19-80c0-976a0d26d06e")
+	)
+	(no_connect
+		(at 127 69.85)
+		(uuid "ee1e12d8-c6f0-4b43-83f2-bf3f05854a0f")
 	)
 	(wire
 		(pts
@@ -4589,6 +4589,16 @@
 		)
 		(uuid "36a69e24-1c67-44b1-803e-a707a1bd23d6")
 	)
+	(label "SPI_SCK"
+		(at 127 77.47 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "37b9c2c1-ee13-4ab2-81b9-c78718d5cf26")
+	)
 	(label "VCC"
 		(at 187.96 27.94 90)
 		(effects
@@ -4718,16 +4728,6 @@
 			(justify right bottom)
 		)
 		(uuid "4eb844fc-118a-4ae0-88e2-18d9d114a405")
-	)
-	(label "SPI_MOSI"
-		(at 127 67.31 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "4fd37c28-db9c-4e34-ba6a-81e1547ecbe0")
 	)
 	(label "FSR_2+"
 		(at 74.93 142.24 270)
@@ -5029,16 +5029,6 @@
 		)
 		(uuid "88faa01a-7c83-41e0-a033-d13f53cea618")
 	)
-	(label "SPI_SCK"
-		(at 127 69.85 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "8b2a888d-1bba-4d5e-9b6b-7597468e25a2")
-	)
 	(label "ADC_FSR3"
 		(at 207.01 64.77 180)
 		(effects
@@ -5198,6 +5188,16 @@
 			(justify left bottom)
 		)
 		(uuid "bf3ae7f1-5995-47aa-b49a-5cd937b37608")
+	)
+	(label "SPI_MOSI"
+		(at 127 74.93 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "c23d721d-a22a-466e-81b1-f0089e64270c")
 	)
 	(label "DEBUG_1"
 		(at 26.67 179.07 180)

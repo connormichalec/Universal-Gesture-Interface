@@ -174,11 +174,11 @@
 	(net 55 "/SPI_SCK")
 	(net 56 "/SPI_CS")
 	(net 57 "/SPI_MOSI")
-	(net 58 "unconnected-(U4-SDA-Pad14)")
+	(net 58 "unconnected-(U4-SCX-Pad3)")
 	(net 59 "unconnected-(U4-NC-Pad11)")
 	(net 60 "unconnected-(U4-NC-Pad10)")
 	(net 61 "unconnected-(U4-INT2-Pad9)")
-	(net 62 "unconnected-(U4-SCL-Pad13)")
+	(net 62 "unconnected-(U4-SDX-Pad2)")
 	(net 63 "/USB-")
 	(net 64 "/USB+")
 	(footprint "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
@@ -236,7 +236,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/d786b1e5-fa0b-452a-93f8-7404284536ec")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.146267 -0.51)
@@ -436,7 +436,7 @@
 		(property ki_fp_filters "LQFP*10x10mm*P0.5mm*")
 		(path "/b5e46e03-2aa7-4998-b313-b775b2eb2131")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 5.11 5.11)
@@ -1462,7 +1462,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/eeac8f71-dd6d-4a0b-8117-4aa3abdbf8e0")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.38 1.27)
@@ -1718,7 +1718,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/7a37b29d-266f-4759-829c-a4f672813a26")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr exclude_from_pos_files)
 		(fp_line
 			(start -0.95 -0.95)
@@ -1879,7 +1879,7 @@
 		(property ki_fp_filters "*SC?70*")
 		(path "/19527037-d3b7-40d8-b949-8cd0ccff42f8")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.68 -1.159999)
@@ -2132,7 +2132,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/90957957-09be-406f-a4d5-9ee934cd9da4")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.146267 -0.51)
@@ -2332,7 +2332,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/e1da78c8-23bc-4b4c-b29d-80fb9fd7785a")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.254724 0.5225)
@@ -2531,7 +2531,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/6eab4768-555e-4a13-975a-6c0e1c2150a2")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.146267 -0.51)
@@ -2730,7 +2730,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/91794f46-b994-480b-a25c-a6b77298c41b")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.146267 0.51)
@@ -2929,7 +2929,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/fa8811da-625c-4005-92a3-fcdbc83036e6")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.254724 -0.5225)
@@ -3128,7 +3128,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/77f4c6e4-a6f4-4cd4-a66f-cf63ab24a527")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.254724 -0.5225)
@@ -3327,7 +3327,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/b6380dd9-f74d-41b3-82b7-3bc698030060")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.254724 -0.5225)
@@ -3526,7 +3526,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/68523d10-28da-472b-afe6-bb2672658354")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.146267 -0.51)
@@ -3725,7 +3725,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/cbcbc8cd-4a83-44f7-98d4-1af6d4e44398")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.254724 -0.5225)
@@ -3925,7 +3925,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/675d9216-8548-4b26-b9a8-153fe9c0544c")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.254724 0.5225)
@@ -4127,7 +4127,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/d36eeaf5-43a6-411f-bb15-35a3eb0915c7")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr exclude_from_pos_files)
 		(fp_line
 			(start -0.95 -0.95)
@@ -4286,7 +4286,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/19b4fff2-2de0-40b8-918e-6b585d0dac36")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.254724 -0.5225)
@@ -4485,7 +4485,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/6bb7de6b-69e6-4517-91c3-d4f68f1d383d")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -1.38 -1.38)
@@ -4761,7 +4761,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/4fd1277d-2583-4e78-bf41-b6c6bc963f6a")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -1.38 -1.38)
@@ -5037,7 +5037,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/7320cc72-3248-46aa-aba0-d7f121bc35c7")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.254724 0.5225)
@@ -5238,7 +5238,7 @@
 		)
 		(path "/dbf10c5d-5dc9-4b66-85f5-d8a10591104e")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -0.25 1.5)
@@ -5573,7 +5573,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/0cf0f5d1-01d6-4a5c-85f9-d0c854441924")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.146267 -0.51)
@@ -5773,7 +5773,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/ec42ffc7-ba40-4ee6-ad53-02831c15c03c")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.38 1.27)
@@ -6026,7 +6026,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/c229ed07-7ba6-477d-86a9-97b041ed9db1")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.146267 -0.51)
@@ -6225,7 +6225,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/dc89d6d6-ffca-48ac-8716-d83a42421183")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.146267 0.51)
@@ -6424,7 +6424,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/f8afbf13-a9b3-4a32-9f74-72b48e8971d2")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.146267 -0.51)
@@ -6624,7 +6624,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/ad9ef3e7-0054-491c-a63b-4b1e43915f78")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.38 1.27)
@@ -6877,7 +6877,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/bf762da3-ac9c-4502-9186-1b72f1a023da")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.146267 0.51)
@@ -7076,7 +7076,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/6893a777-984a-4255-b9ea-a4dd6a78b8c4")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.146267 -0.51)
@@ -7278,7 +7278,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/53d86cf1-1acb-4c1f-8ff5-066758e38fd5")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr exclude_from_pos_files)
 		(fp_line
 			(start -0.95 -0.95)
@@ -7438,7 +7438,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/3819027b-4af6-4b59-a2f4-6c83181bf875")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.38 1.27)
@@ -7692,7 +7692,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/534161d8-17a9-4355-b40b-e5090708f136")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 0.94 0)
@@ -7856,7 +7856,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/6bd894a9-b6c2-4fcb-804c-f5b5a7c25306")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.38 1.27)
@@ -8112,7 +8112,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/deb5dc68-4853-4082-96ea-e854f48cb8ec")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr exclude_from_pos_files)
 		(fp_line
 			(start -0.95 -0.95)
@@ -8271,7 +8271,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/d292bb96-6ddf-46a4-b862-4ddd18bce777")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.146267 -0.51)
@@ -8471,7 +8471,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/eac25294-3381-4e5f-90c9-a9ae3b0c5766")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.38 1.27)
@@ -8726,7 +8726,7 @@
 		(property ki_fp_filters "SOT?223*TabPin2*")
 		(path "/b32e9824-8ea2-4ca2-b077-868902b82e73")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -1.85 -3.41)
@@ -8989,7 +8989,7 @@
 		(property ki_fp_filters "LGA*3x2.5mm*P0.5mm*LayoutBorder3x4y*")
 		(path "/ef530001-8d61-4908-b6ce-31857709d7ae")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(clearance 0.15)
 		(attr smd)
 		(fp_line
@@ -9124,9 +9124,9 @@
 			(size 0.625 0.35)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net 57 "/SPI_MOSI")
+			(net 62 "unconnected-(U4-SDX-Pad2)")
 			(pinfunction "SDX")
-			(pintype "bidirectional")
+			(pintype "bidirectional+no_connect")
 			(uuid "cd739612-a338-473c-a88c-41043a8ea7e2")
 		)
 		(pad "3" smd roundrect
@@ -9134,9 +9134,9 @@
 			(size 0.625 0.35)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net 55 "/SPI_SCK")
+			(net 58 "unconnected-(U4-SCX-Pad3)")
 			(pinfunction "SCX")
-			(pintype "input")
+			(pintype "input+no_connect")
 			(uuid "a0c36647-9ec2-45de-b9d9-beffb5c76c68")
 		)
 		(pad "4" smd roundrect
@@ -9234,9 +9234,9 @@
 			(size 0.35 0.625)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net 62 "unconnected-(U4-SCL-Pad13)")
+			(net 55 "/SPI_SCK")
 			(pinfunction "SCL")
-			(pintype "input+no_connect")
+			(pintype "input")
 			(uuid "307eb139-5a65-443a-8d6e-634337cd1e2e")
 		)
 		(pad "14" smd roundrect
@@ -9244,9 +9244,9 @@
 			(size 0.35 0.625)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net 58 "unconnected-(U4-SDA-Pad14)")
+			(net 57 "/SPI_MOSI")
 			(pinfunction "SDA")
-			(pintype "bidirectional+no_connect")
+			(pintype "bidirectional")
 			(uuid "41da09ff-1e73-4f70-91ce-501e02fa95df")
 		)
 		(embedded_fonts no)
@@ -9317,7 +9317,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/91b0c627-407d-4509-a305-0314981d11ab")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.146267 0.51)
@@ -9517,7 +9517,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/5e92c652-e969-4637-bfa8-94768786353e")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.254724 0.5225)
@@ -9717,7 +9717,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/69ecf5b0-bd8d-47dc-a609-96f1cf1a9dbd")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.38 1.27)
@@ -9970,7 +9970,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/e33d9341-cfb0-469f-bcd4-a256fb7a978b")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.254724 -0.5225)
@@ -10170,7 +10170,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/9167ee77-7b68-401a-8f29-6a0c99fc56dc")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.38 1.27)
@@ -10423,7 +10423,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/6ddd17f2-c7de-4b88-9578-813cc495e43b")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.254724 -0.5225)
@@ -10622,7 +10622,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/e4961a04-8679-4183-bbbb-3eeec687fd11")
 		(sheetname "/")
-		(sheetfile "finalboard_v1.kicad_sch")
+		(sheetfile "finalboard_v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.254724 -0.5225)
@@ -13736,14 +13736,6 @@
 		(uuid "58916c8f-08d5-44d9-a9fe-4914f8aa1c3b")
 	)
 	(segment
-		(start 160.570333 117.388286)
-		(end 160.570333 110.133492)
-		(width 0.2)
-		(layer "F.Cu")
-		(net 55)
-		(uuid "2f213446-5389-4131-9123-4f619a359239")
-	)
-	(segment
 		(start 160.570333 110.133492)
 		(end 160.92 109.783825)
 		(width 0.2)
@@ -13758,14 +13750,6 @@
 		(layer "F.Cu")
 		(net 55)
 		(uuid "aacfbc21-9912-47d4-91a2-6a9f2b8a3939")
-	)
-	(segment
-		(start 160.875412 117.693365)
-		(end 160.570333 117.388286)
-		(width 0.2)
-		(layer "F.Cu")
-		(net 55)
-		(uuid "aeba0fe5-adc7-4d8f-a86e-dc0fbc7b5ce3")
 	)
 	(segment
 		(start 163.13062 115.63262)
@@ -13806,30 +13790,6 @@
 		(layer "F.Cu")
 		(net 57)
 		(uuid "9105713c-f82f-4651-bfdb-c074286a7e45")
-	)
-	(segment
-		(start 161.228965 117.339812)
-		(end 160.971333 117.08218)
-		(width 0.2)
-		(layer "F.Cu")
-		(net 57)
-		(uuid "df36cce5-d9ce-4e0a-9358-8ee9091c15ba")
-	)
-	(segment
-		(start 160.971333 117.08218)
-		(end 160.971333 115.609267)
-		(width 0.2)
-		(layer "F.Cu")
-		(net 57)
-		(uuid "ea455709-f5fc-4458-941e-aacbc431623e")
-	)
-	(segment
-		(start 160.971333 115.609267)
-		(end 161.92 114.6606)
-		(width 0.2)
-		(layer "F.Cu")
-		(net 57)
-		(uuid "eef94b61-7f2e-47d2-8982-1ed47655ed3c")
 	)
 	(segment
 		(start 144.1668 95.360002)
