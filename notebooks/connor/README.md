@@ -54,3 +54,27 @@ Our board is powered off of USB and requirse a regulator to step the 5V to 3.3V 
 While I was working with the hardware, Kobe wrote a simple program in STM32CubeIDE to turn a debug pin on and off on our testboard, so the next test was seeing if we could successfully program it, which worked. We are using an STLINK-V2 clone to do so, and my biggest concern was that I laid out our MCU wrong on the PCB but getting it to program was a huge relief. Overall today was a big success and being able to program it was a big milestone.
 
 ![IMG_6111](https://github.com/user-attachments/assets/26456032-674f-4f63-b255-dbb06ccfb808)
+
+## 2026-03-20 - Test USB connectivity
+
+After getting basic MCU operation, my main goal is to setup communication between the MCU and the PC. 
+
+The first challenge in this is to configure the clock settings on the MCU, as USB requires a 48MHz clock signal with little room for error, such that the built in oscillator in the STM32 would not be sufficently precise. I included a 8Mhz crystal oscillator on the PCB for this purpose. I had to configure STM32CubeIDE to utilize the crystal oscillator as its oscillation source, then using the correct prescaling settings, derived a 48Mhz signal for USB. The clock layout is below:
+
+<img width="1155" height="593" alt="image" src="https://github.com/user-attachments/assets/f03af783-a19d-4f2a-a267-778061f9f5e8" />
+
+After some research, As a basic test, I configured the USB interface as a HID device. This successfully showed up in my computers device manager indicating USB connectivity was successful. I then wrote a rudimentary program to act as a mouse device which you can see below:
+
+
+
+https://github.com/user-attachments/assets/b1170685-d390-4c15-a29c-faa79d675fc0
+
+
+This proves the basic functionality of MCU communication with PC. The next steps are now to start communicating with the sensors so we can utilize that data to control the PC in a way such as the mouse demo. I will focus on the hardware level communication with the peripherals (particularlly the IMU), and Kobe will start working on the signal processing that involves. 
+
+
+
+
+
+
+
