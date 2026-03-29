@@ -72,7 +72,23 @@ https://github.com/user-attachments/assets/b1170685-d390-4c15-a29c-faa79d675fc0
 
 This proves the basic functionality of MCU communication with PC. The next steps are now to start communicating with the sensors so we can utilize that data to control the PC in a way such as the mouse demo. I will focus on the hardware level communication with the peripherals (particularlly the IMU), and Kobe will start working on the signal processing that involves. 
 
+## 2026-03-28 - IMU connectivity
 
+USB connectivity has been established so the next step is to interface with the peripherals. Kobe wrote some basic code for intefacing with the flex sensor and force sensitive resistor but could not get any response over SPI from the IMU. My main goal here was to investigate what was going wrong and try to get communication established.
+
+The issue we were encountering was that the IMU does not seem to respond at all. After some basic code to setup SPI communication, I wrote a basic WHOAMI test which should just read a status register on the IMU to ensure basic communication works. Unfortunately the data line seemed dead. I spent many many hours troubleshooting this. At first I couldn't tell whether it was a firmware or hardware issue, so tried various tests such as changing clock speeds, configurations, probing with oscilliscope, reflowing the component, and even resoldering a completely new board.
+
+I eventually narrowed it down to a hardware issue because the MISO line seemed to not respond at all despite me checking correct MOSI/CS/SCK signals via an oscilliscope probe. After many hours of debugging I gave up.
+
+The following day I decided to spend more hours troubleshooting the issue and eventually discovered via reviewing the datasheet that I was using auxiliary connections on the IMU instead of the main one. I was quite relieved to have found the issue but unfortunately, that meant our PCB was wrong and I would have to redesign it, even after the round 4 deadline had passed, meaning we are probably going to have to order our own PCBs. Before that though, I still wanted to test IMU functionality so I decided to surgically solder to the IMU to try to communicate with it so we could still proceed with our testing without the correct PCB.
+
+This was incredible difficult, and I utilized the smallest wire I could find under the microscope to solder to the bottom of the IMU, taping in place and using wires to connect it directly to the pads on the MCU. You can see below how it was done:
+![IMG_6138](https://github.com/user-attachments/assets/58865559-e033-45b8-8fec-f4b6971fdbb1)
+
+While quite janky, I was quite relieved to see that I could now communicate with the chip (as seen below with the WHOAMI serial test) and we could now proceed on to receiving gyro/accelerometer data.
+
+
+![IMG_6139](https://github.com/user-attachments/assets/e1569d24-cc0d-436b-af2b-0c4b0f6bdcad)
 
 
 
