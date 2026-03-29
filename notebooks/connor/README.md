@@ -31,3 +31,10 @@ I also implemented components to test USB communication, and provided the abilit
 
 Kenobi will now be the one to design the layout. He has a lot of experience with PCB layout from one of his internships, and we can get it ordered by round 1.
 
+## 2026-03-10 - developed final board V1
+
+PCBs are taking a while to arrive, its already round 3 and we haven't received our testboards. We decided just to develop the final board without being able to test.
+
+For the final schematic, I am shifting the design away from a testbench to one that we can see in the final project. The biggest change on the schematic side is just adding more support for all of the Flex sensors/Force sensitive resistors. We decided we will just have support for 3 flex sensors one for the index finger, middle finger and thumb, but will have force senstiive resistors for every finger. The reason for this is that we determined the ring and pinky finger would not be used that much in most gestures. We decided to keep all the Force senstiive resistors however since we believe they could be useful to expand the possible surface gestures, so we will leave that option there.
+
+Other than that the only other changes are on the layout side to make it fit well into the glove shape, but that is handled by Kenobi.
