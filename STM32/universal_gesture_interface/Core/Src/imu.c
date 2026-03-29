@@ -64,7 +64,7 @@ uint8_t IMU_Init(SPI_HandleTypeDef *hspi)
     // Enable Block Data Update (optional, recommended)
     LSM6DSL_WriteReg(CTRL3_C, 0x44); // BDU=1, IF_INC=1
 
-    // Configure accelerometer: 104 Hz, ±4g
+    // Configure accelerometer: 104 Hz, +/-4g
     // ODR_XL = 104 Hz, FS_XL = ±4g, BW = 100 Hz
     LSM6DSL_WriteReg(CTRL1_XL, 0x48);
 
@@ -76,45 +76,34 @@ uint8_t IMU_Init(SPI_HandleTypeDef *hspi)
 
 void IMU_ReadAccel(SPI_HandleTypeDef *hspi, int16_t *accel)
 {
-    uint8_t tx[7];
-    uint8_t rx[7];
+    uint8_t tx[7] = {0};
+    uint8_t rx[7] = {0};
 
-    tx[0] = 0x28 | 0x80 | 0x40;  // Read + auto-increment
-    for (int i = 1; i < 7; i++) {
-        tx[i] = 0x00; // dummy bytes
-    }
+    // Corrected: Just the Read bit (0x80) + Start Address (0x28)
+    tx[0] = 0x28 | 0x80;
 
     CS_LOW();
-
     HAL_SPI_TransmitReceive(hspi, tx, rx, 7, HAL_MAX_DELAY);
-
     CS_HIGH();
 
-    // Combine bytes (little endian)
-    accel[0] = (int16_t)(rx[2] << 8 | rx[1]); // X
-    accel[1] = (int16_t)(rx[4] << 8 | rx[3]); // Y
-    accel[2] = (int16_t)(rx[6] << 8 | rx[5]); // Z
+    accel[0] = (int16_t)((rx[2] << 8) | rx[1]);
+    accel[1] = (int16_t)((rx[4] << 8) | rx[3]);
+    accel[2] = (int16_t)((rx[6] << 8) | rx[5]);
 }
 
 void IMU_ReadGyro(SPI_HandleTypeDef *hspi, int16_t *gyro)
 {
-    uint8_t tx[7];
-    uint8_t rx[7];
+    uint8_t tx[7] = {0};
+    uint8_t rx[7] = {0};
 
-    // Read + auto-increment starting at OUTX_L_G (0x22)
-    tx[0] = 0x22 | 0x80 | 0x40;
-
-    for (int i = 1; i < 7; i++) {
-        tx[i] = 0x00; // dummy bytes
-    }
+    // Read (0x80) from OUTX_L_G (0x22)
+    tx[0] = 0x22 | 0x80;
 
     CS_LOW();
-
     HAL_SPI_TransmitReceive(hspi, tx, rx, 7, HAL_MAX_DELAY);
-
     CS_HIGH();
 
-    // Combine low/high bytes (little-endian)
+    // The data mapping remains correct:
     gyro[0] = (int16_t)(rx[2] << 8 | rx[1]); // X
     gyro[1] = (int16_t)(rx[4] << 8 | rx[3]); // Y
     gyro[2] = (int16_t)(rx[6] << 8 | rx[5]); // Z

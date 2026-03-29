@@ -114,6 +114,7 @@ int main(void)
   // for testing
   uint8_t mouseReport[4] = {0, 1, 1, 0};  // buttons,X,Y,wheel
   int16_t accel[3] = { 0, 0, 0 };
+  int16_t gyro[3] = { 0, 0, 0 };
   char buf[64];		// Temp, just for debug outputs
 
   /* USER CODE END 2 */
@@ -123,32 +124,36 @@ int main(void)
   while (1)
   {
 	// IMU test
-	//IMU_ReadAccel(&hspi1, accel);
-	//mouseReport[1] = accel[0] >> 8;
-	//mouseReport[2] = accel[1] >> 8;
+
+	IMU_ReadAccel(&hspi1, accel);
+	IMU_ReadGyro(&hspi1, gyro);
+	mouseReport[1] = accel[0] >> 8;
+	mouseReport[2] = accel[1] >> 8;
+	sprintf(buf, "AX:%d AY:%d AZ:%d GX:%d GY:%d GZ:%d\r\n", accel[0], accel[1], accel[2], gyro[0], gyro[1], gyro[2]);
+	CDC_Transmit_FS((uint8_t*)buf, strlen(buf));
+	HAL_Delay(10);
 
 	// Mouse control test
 	//USBD_HID_SendReport(&hUsbDeviceFS, mouseReport, 4);
 
-	//sprintf(buf, "AX:%d AY:%d AZ:%d\r\n", accel[0], accel[1], accel[2]);
-	//CDC_Transmit_FS((uint8_t*)buf, strlen(buf));
-
-    //uint8_t tx[2];
-    //uint8_t rx[2];
 
 
+
+
+	//WHOAMI response test:
+	/*
     uint8_t tx[2] = {0x8F, 0x00};   //WHOAMI/Dummy byte
   	uint8_t rx[2];
-
-
     CS_LOW();
     HAL_SPI_TransmitReceive(&hspi1, tx, rx, 2, HAL_MAX_DELAY);
     CS_HIGH();
 
-    sprintf(buf, "Flex: %d, FSR: %d SPI rx: %02X\r\n", flex_reg, fsr_reg, rx[1]);
-    CDC_Transmit_FS((uint8_t*)buf, strlen(buf));
+    sprintf(buf, "IMU HWOAMI resp: %02X\r\n", rx[1]);
+    CDC_Transmit_FS((uint8_t*)buf, strlen(buf));*/
 
-	HAL_Delay(100);
+    //sprintf(buf, "Flex: %d, FSR: %d", flex_reg, fsr_reg);
+    //CDC_Transmit_FS((uint8_t*)buf, strlen(buf));
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
