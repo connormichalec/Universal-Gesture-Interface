@@ -38,3 +38,19 @@ PCBs are taking a while to arrive, its already round 3 and we haven't received o
 For the final schematic, I am shifting the design away from a testbench to one that we can see in the final project. The biggest change on the schematic side is just adding more support for all of the Flex sensors/Force sensitive resistors. We decided we will just have support for 3 flex sensors one for the index finger, middle finger and thumb, but will have force senstiive resistors for every finger. The reason for this is that we determined the ring and pinky finger would not be used that much in most gestures. We decided to keep all the Force senstiive resistors however since we believe they could be useful to expand the possible surface gestures, so we will leave that option there.
 
 Other than that the only other changes are on the layout side to make it fit well into the glove shape, but that is handled by Kenobi.
+
+## 2026-03-13 - Test board assembly and configuration
+
+We received our test board PCB and parts, and today the main goal for me was to solder it together and perform the initial tests and configuration.
+
+The biggest challenges in this were not only soldering the LQFP-64 STM32F405 but especially the LGA-14 LSM6DSL IMU, which has tiny LGA pads that cannot be soldered with the iron. (I decided to not get a stencil because we found it unnecessary and wanted the challenge. The equipment in the lab is a little lackluster because there is only a few soldering irons that work well, most of them have broken tips; so it was a bit of a challenge to find a setup that would actually work for soldering the components. Once I found a soldering iron that worked well the STM32 was a bit of a challenge to solder because the tip was too big for the pins i was soldering, but I developed a technique of using a blob of solder and brushing it against the pins which worked well and i got a clean connection.
+
+To solder the IMU I tinned the pads of the PCB as well as tinned the component and used a heat gun on it to set it. This seemed to work well, and while it took some patience, I think I got a good connection.
+
+The rest of the components were trivial, and were mainly larger smd components and peripherals. However, I had to sacrifice one of my USB charging cables to solder the usb connection to the board.
+
+Our board is powered off of USB and requirse a regulator to step the 5V to 3.3V so that was there first thing to test. We did a bench supply test first, which showed proper voltage readings throuhgout the board and progressed to plugging it into the laptop which also showed good voltage readings.
+
+While I was working with the hardware, Kobe wrote a simple program in STM32CubeIDE to turn a debug pin on and off on our testboard, so the next test was seeing if we could successfully program it, which worked. We are using an STLINK-V2 clone to do so, and my biggest concern was that I laid out our MCU wrong on the PCB but getting it to program was a huge relief. Overall today was a big success and being able to program it was a big milestone.
+
+![IMG_6111](https://github.com/user-attachments/assets/26456032-674f-4f63-b255-dbb06ccfb808)
