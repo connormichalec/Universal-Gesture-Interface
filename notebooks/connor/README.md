@@ -90,6 +90,11 @@ While quite janky, I was quite relieved to see that I could now communicate with
 
 ![IMG_6139](https://github.com/user-attachments/assets/e1569d24-cc0d-436b-af2b-0c4b0f6bdcad)
 
+## 2026-03-29 - IMU value reading
+
+With a successful testbench setup, we are now ready to read values off the IMU. The goal for this part is to successfully read accel/gyro data. 
+
+Kobe has already started writing code to interface with it, but upon testing the code, I get 0s for data response. So really, I just have to fix the code that Kobe started. I quickly discovered that Kobe was reading from the registers in a way that works for an older model of the IMU, and changing the process resulted in successful read/writes.
 
 
 
