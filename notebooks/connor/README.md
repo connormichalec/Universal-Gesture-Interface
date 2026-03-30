@@ -94,8 +94,9 @@ While quite janky, I was quite relieved to see that I could now communicate with
 
 With a successful testbench setup, we are now ready to read values off the IMU. The goal for this part is to successfully read accel/gyro data. 
 
-Kobe has already started writing code to interface with it, but upon testing the code, I get 0s for data response. So really, I just have to fix the code that Kobe started. I quickly discovered that Kobe was reading from the registers in a way that works for an older model of the IMU, and changing the process resulted in successful read/writes.
+Kobe has already started writing code to interface with it, but upon testing the code, I get 0s for data response. So really, I just have to fix the code that Kobe started. I quickly discovered that Kobe was reading from the registers in a way that works for an older model of the IMU, and changing the process resulted in successful read/writes as seen below.
 
+![IMG_6147](https://github.com/user-attachments/assets/206c3add-11e5-4471-b09e-6af6ca47b2f2)
 
 
 
