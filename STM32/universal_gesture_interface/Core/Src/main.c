@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "imu.h"
+#include "motion_processing.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -114,7 +115,13 @@ int main(void)
   // for testing
   uint8_t mouseReport[4] = {0, 1, 1, 0};  // buttons,X,Y,wheel
   int16_t accel[3] = { 0, 0, 0 };
+  int16_t vel[3] = { 0, 0, 0 };
+  int16_t prev[3] = { 0, 0, 0 };
+  int16_t hp[3] = { 0, 0, 0 };
   int16_t gyro[3] = { 0, 0, 0 };
+  uint32_t prev_timestamp = 0;
+  uint32_t current_timestamp = 0;
+  uint32_t dt = 0;
   char buf[64];		// Temp, just for debug outputs
 
   /* USER CODE END 2 */
@@ -129,9 +136,24 @@ int main(void)
 	IMU_ReadGyro(&hspi1, gyro);
 	mouseReport[1] = accel[0] >> 8;
 	mouseReport[2] = accel[1] >> 8;
-	sprintf(buf, "AX:%d AY:%d AZ:%d GX:%d GY:%d GZ:%d\r\n", accel[0], accel[1], accel[2], gyro[0], gyro[1], gyro[2]);
+
+	// Format: AX AY AZ GX GY GZ
+	sprintf(buf, "%d %d %d %d %d %d\r\n", accel[0], accel[1], accel[2], gyro[0], gyro[1], gyro[2]);
 	CDC_Transmit_FS((uint8_t*)buf, strlen(buf));
-	HAL_Delay(10);
+
+	// Get elapsed time since last tick
+	current_timestamp = HAL_GetTick();
+	dt = current_timestamp - prev_timestamp;
+	prev_timestamp = current_timestamp;
+
+	// Testing out filtering
+	//HPF(accel, prev, hp, 0.9);
+	//AccelToVel(accel, vel, 0.9, dt);
+
+	//sprintf(buf, "%d %d | %d %d | %d %d\r\n", accel[0], accel[1], hp[0], hp[1], vel[0], vel[1]);
+	//CDC_Transmit_FS((uint8_t*)buf, strlen(buf));
+
+	HAL_Delay(50);
 
 	// Mouse control test
 	//USBD_HID_SendReport(&hUsbDeviceFS, mouseReport, 4);
@@ -141,8 +163,8 @@ int main(void)
 
 
 	//WHOAMI response test:
-	/*
-    uint8_t tx[2] = {0x8F, 0x00};   //WHOAMI/Dummy byte
+
+    /*uint8_t tx[2] = {0x8F, 0x00};   //WHOAMI/Dummy byte
   	uint8_t rx[2];
     CS_LOW();
     HAL_SPI_TransmitReceive(&hspi1, tx, rx, 2, HAL_MAX_DELAY);
@@ -151,7 +173,7 @@ int main(void)
     sprintf(buf, "IMU HWOAMI resp: %02X\r\n", rx[1]);
     CDC_Transmit_FS((uint8_t*)buf, strlen(buf));*/
 
-    //sprintf(buf, "Flex: %d, FSR: %d", flex_reg, fsr_reg);
+    //sprintf(buf, "%d\r\n", fsr_reg);
     //CDC_Transmit_FS((uint8_t*)buf, strlen(buf));
 
     /* USER CODE END WHILE */
