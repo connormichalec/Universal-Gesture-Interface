@@ -79,7 +79,7 @@ void IMU_ReadAccel(SPI_HandleTypeDef *hspi, int16_t *accel)
     uint8_t tx[7] = {0};
     uint8_t rx[7] = {0};
 
-    // Corrected: Just the Read bit (0x80) + Start Address (0x28)
+    // Read bit (0x80) + Start Address (0x28)
     tx[0] = 0x28 | 0x80;
 
     CS_LOW();

@@ -117,12 +117,12 @@ int main(void)
   int16_t accel[3] = { 0, 0, 0 };
   int16_t vel[3] = { 0, 0, 0 };
   int16_t prev[3] = { 0, 0, 0 };
-  int16_t hp[3] = { 0, 0, 0 };
+  float hp[3] = { 0, 0, 0 };
   int16_t gyro[3] = { 0, 0, 0 };
   uint32_t prev_timestamp = 0;
   uint32_t current_timestamp = 0;
   uint32_t dt = 0;
-  char buf[64];		// Temp, just for debug outputs
+  char buf[128];		// Temp, just for debug outputs
 
   /* USER CODE END 2 */
 
@@ -134,12 +134,10 @@ int main(void)
 
 	IMU_ReadAccel(&hspi1, accel);
 	IMU_ReadGyro(&hspi1, gyro);
-	mouseReport[1] = accel[0] >> 8;
-	mouseReport[2] = accel[1] >> 8;
 
 	// Format: AX AY AZ GX GY GZ
-	sprintf(buf, "%d %d %d %d %d %d\r\n", accel[0], accel[1], accel[2], gyro[0], gyro[1], gyro[2]);
-	CDC_Transmit_FS((uint8_t*)buf, strlen(buf));
+	//sprintf(buf, "%d %d %d %d %d %d\r\n", accel[0], accel[1], accel[2], gyro[0], gyro[1], gyro[2]);
+	//CDC_Transmit_FS((uint8_t*)buf, strlen(buf));
 
 	// Get elapsed time since last tick
 	current_timestamp = HAL_GetTick();
@@ -147,17 +145,31 @@ int main(void)
 	prev_timestamp = current_timestamp;
 
 	// Testing out filtering
-	//HPF(accel, prev, hp, 0.9);
-	//AccelToVel(accel, vel, 0.9, dt);
+	HPF(accel, prev, hp, 0.9);
+	AccelToVel(hp, vel, 0.8, dt);
 
-	//sprintf(buf, "%d %d | %d %d | %d %d\r\n", accel[0], accel[1], hp[0], hp[1], vel[0], vel[1]);
+	mouseReport[1] = vel[0] / 2;
+	mouseReport[2] = -vel[1] / 2;
+
+	/*sprintf(buf, "accel_x: %d\r\n", accel[0]);
+	sprintf(buf + strlen(buf), "accel_y: %d\r\n", accel[1]);
+	sprintf(buf + strlen(buf), "accel_z: %d\r\n", accel[2]);
+	sprintf(buf + strlen(buf), "hp_x: %d\r\n", (int)(hp[0]));
+	sprintf(buf + strlen(buf), "hp_y: %d\r\n", (int)(hp[1]));
+	sprintf(buf + strlen(buf), "hp_z: %d\r\n", (int)(hp[2]));
+	sprintf(buf + strlen(buf), "vel_x: %d\r\n", vel[0]);
+	sprintf(buf + strlen(buf), "vel_y: %d\r\n", vel[1]);
+	sprintf(buf + strlen(buf), "vel_z: %d\r\n", vel[2]);
+	CDC_Transmit_FS((uint8_t*)buf, strlen(buf));*/
+
+	//sprintf(buf, "x: %d\r\ny: %d\r\n", vel[0] / 10, vel[1] / 10);
 	//CDC_Transmit_FS((uint8_t*)buf, strlen(buf));
 
-	HAL_Delay(50);
 
 	// Mouse control test
-	//USBD_HID_SendReport(&hUsbDeviceFS, mouseReport, 4);
+	USBD_HID_SendReport(&hUsbDeviceFS, mouseReport, 4);
 
+	HAL_Delay(50);
 
 
 
