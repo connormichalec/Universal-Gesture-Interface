@@ -27,6 +27,9 @@ vel_x = 0
 vel_y = 0
 vel_z = 0
 
+fsr = 0
+flex = 0
+
 # ---------------------------
 
 running = True
@@ -71,6 +74,12 @@ while running:
         if key == 'vel_z':
             vel_z = float(val)
 
+        if key == 'fsr':
+            fsr = int(val)
+
+        if key == 'flex':
+            flex = int(val)
+
     inputs.clear()
 
     # DRAWING
@@ -86,6 +95,9 @@ while running:
     pygame.draw.circle(screen, (0, 255, 0), (100, 240 + vel_x), 17)
     pygame.draw.circle(screen, (0, 255, 0), (200, 240 + vel_y), 17)
     pygame.draw.circle(screen, (0, 255, 0), (300, 240 + vel_z), 17)
+
+    pygame.draw.circle(screen, (255, 155, 0), (450, 240 + fsr / 20), 15)
+    pygame.draw.circle(screen, (50, 30, 100), (500, 240 + flex / 20), 15)
 
     # Must be the last two lines
     # of the game loop

@@ -31,8 +31,14 @@ void HPF(int16_t* accel, int16_t* prev, float* hp, float alpha) {
 //	- accel: Filtered accelerometer data from HPF
 //	- vel: Velocity data, output stored in this
 //	- drag: Drag coeffecient, meant to counteract drift
-void AccelToVel(float* accel, int16_t* vel, float drag, float dt) {
+void AccelToVel(float* accel, float* vel, float drag, float dt) {
 	for (uint8_t dim = 0; dim < 3; dim++) {
 		vel[dim] = drag * vel[dim] + accel[dim] * dt / 1000.0f;
+	}
+}
+
+void VelLPF(float* vel, float* lp_vel, float alpha) {
+	for (uint8_t dim = 0; dim < DIM; dim++) {
+		lp_vel[dim] = alpha * vel[dim] + (1 - alpha) * lp_vel[dim];
 	}
 }

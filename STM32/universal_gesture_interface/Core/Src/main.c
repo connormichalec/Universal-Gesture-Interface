@@ -24,6 +24,7 @@
 /* USER CODE BEGIN Includes */
 #include "imu.h"
 #include "motion_processing.h"
+#include "flex_sensor.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -108,6 +109,7 @@ int main(void)
 
   volatile uint32_t fsr_reg = 0;
   volatile uint32_t flex_reg = 0;
+  uint32_t flex_lp = 0;
   IMU_Init(&hspi1);
   HAL_ADC_Start_DMA(&hadc1, &fsr_reg, 1);
   HAL_ADC_Start_DMA(&hadc2, &flex_reg, 1);
@@ -115,14 +117,15 @@ int main(void)
   // for testing
   uint8_t mouseReport[4] = {0, 1, 1, 0};  // buttons,X,Y,wheel
   int16_t accel[3] = { 0, 0, 0 };
-  int16_t vel[3] = { 0, 0, 0 };
+  float vel[3] = { 0, 0, 0 };
+  float lp_vel[3] = { 0, 0, 0 };
   int16_t prev[3] = { 0, 0, 0 };
   float hp[3] = { 0, 0, 0 };
   int16_t gyro[3] = { 0, 0, 0 };
   uint32_t prev_timestamp = 0;
   uint32_t current_timestamp = 0;
   uint32_t dt = 0;
-  char buf[128];		// Temp, just for debug outputs
+  char buf[256];		// Temp, just for debug outputs
 
   /* USER CODE END 2 */
 
@@ -147,9 +150,24 @@ int main(void)
 	// Testing out filtering
 	HPF(accel, prev, hp, 0.9);
 	AccelToVel(hp, vel, 0.8, dt);
+	VelLPF(vel, lp_vel, 0.35);
 
-	mouseReport[1] = vel[0] / 2;
-	mouseReport[2] = -vel[1] / 2;
+	// Filter flex sensor
+	FlexLPF(&flex_reg, &flex_lp, 0.2);
+
+	mouseReport[0] = fsr_reg < 100;
+
+	if (flex_reg > 2600) {
+		// Test: Switch to scroll wheel
+		mouseReport[1] = 0;
+		mouseReport[2] = 0;
+		mouseReport[3] = (int8_t)(lp_vel[0] / 3.0);
+	}
+	else {
+		mouseReport[1] = (int8_t)(lp_vel[0]);
+		mouseReport[2] = (int8_t)(-lp_vel[1]);
+		mouseReport[3] = 0;
+	}
 
 	/*sprintf(buf, "accel_x: %d\r\n", accel[0]);
 	sprintf(buf + strlen(buf), "accel_y: %d\r\n", accel[1]);
@@ -160,7 +178,11 @@ int main(void)
 	sprintf(buf + strlen(buf), "vel_x: %d\r\n", vel[0]);
 	sprintf(buf + strlen(buf), "vel_y: %d\r\n", vel[1]);
 	sprintf(buf + strlen(buf), "vel_z: %d\r\n", vel[2]);
-	CDC_Transmit_FS((uint8_t*)buf, strlen(buf));*/
+	sprintf(buf + strlen(buf), "fsr: %d\r\n", fsr_reg);
+	sprintf(buf + strlen(buf), "flex: %d\r\n", flex_lp);*/
+
+
+	//CDC_Transmit_FS((uint8_t*)buf, strlen(buf));
 
 	//sprintf(buf, "x: %d\r\ny: %d\r\n", vel[0] / 10, vel[1] / 10);
 	//CDC_Transmit_FS((uint8_t*)buf, strlen(buf));
@@ -169,7 +191,7 @@ int main(void)
 	// Mouse control test
 	USBD_HID_SendReport(&hUsbDeviceFS, mouseReport, 4);
 
-	HAL_Delay(50);
+	HAL_Delay(20);
 
 
 
