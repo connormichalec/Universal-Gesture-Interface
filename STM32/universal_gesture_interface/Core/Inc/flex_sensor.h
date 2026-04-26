@@ -10,6 +10,7 @@
 
 #include "stm32f405xx.h"
 
-void FlexLPF(uint32_t* flex_reg, uint32_t* lp_reg, float alpha);
+void FlexLPF(float flex_reg, float* lp_reg, float alpha);
+float FlexRemap(uint16_t val, int16_t min, int16_t range);
 
 #endif /* INC_FLEX_SENSOR_H_ */

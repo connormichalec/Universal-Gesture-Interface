@@ -8,10 +8,14 @@
 
 #include "flex_sensor.h"
 
-void FlexLPF(uint32_t* flex_reg, uint32_t* lp_reg, float alpha) {
-	*lp_reg = alpha * (*flex_reg) + (1.0 - alpha) * (*lp_reg);
+void FlexLPF(float flex_reg, float* lp_reg, float alpha) {
+	*lp_reg = alpha * (flex_reg) + (1.0 - alpha) * (*lp_reg);
 }
 
-uint32_t FlexRemap(uint32_t val) {
-	return 0;
+float FlexRemap(uint16_t val, int16_t min, int16_t range) {
+	float out = (float) (val - min) / range;
+
+	if (out > 1.0) return 1.0;
+	if (out < 0.0) return 0.0;
+	return out;
 }

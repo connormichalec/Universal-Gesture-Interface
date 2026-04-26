@@ -10,7 +10,8 @@
 #ifndef INC_MOTION_PROCESSING_H_
 #define INC_MOTION_PROCESSING_H_
 
-void HPF(int16_t* accel, int16_t* prev, float* hp, float alpha);
+void RotateData(float* x, float* y);
+void HPF(float* accel, float* prev, float* hp, float alpha);
 void AccelToVel(float* accel, float* vel, float drag, float dt);
 void VelLPF(float* vel, float* lp_vel, float alpha);
 

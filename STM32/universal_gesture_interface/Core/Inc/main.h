@@ -57,10 +57,16 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define FSR_1_Pin GPIO_PIN_1
-#define FSR_1_GPIO_Port GPIOA
-#define FLEX_1_Pin GPIO_PIN_2
-#define FLEX_1_GPIO_Port GPIOA
+#define Fsr_middle_Pin GPIO_PIN_2
+#define Fsr_middle_GPIO_Port GPIOC
+#define Fsr_index_Pin GPIO_PIN_1
+#define Fsr_index_GPIO_Port GPIOA
+#define Fsr_thumb_Pin GPIO_PIN_2
+#define Fsr_thumb_GPIO_Port GPIOA
+#define Flex_middle_Pin GPIO_PIN_3
+#define Flex_middle_GPIO_Port GPIOA
+#define Flex_index_Pin GPIO_PIN_0
+#define Flex_index_GPIO_Port GPIOB
 #define SPI1_CS_Pin GPIO_PIN_6
 #define SPI1_CS_GPIO_Port GPIOB
 #define IMU_INT1_Pin GPIO_PIN_7

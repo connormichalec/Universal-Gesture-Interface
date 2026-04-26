@@ -74,7 +74,7 @@ uint8_t IMU_Init(SPI_HandleTypeDef *hspi)
     return 1; // success
 }
 
-void IMU_ReadAccel(SPI_HandleTypeDef *hspi, int16_t *accel)
+void IMU_ReadAccel(SPI_HandleTypeDef *hspi, float *accel)
 {
     uint8_t tx[7] = {0};
     uint8_t rx[7] = {0};
@@ -91,7 +91,7 @@ void IMU_ReadAccel(SPI_HandleTypeDef *hspi, int16_t *accel)
     accel[2] = (int16_t)((rx[6] << 8) | rx[5]);
 }
 
-void IMU_ReadGyro(SPI_HandleTypeDef *hspi, int16_t *gyro)
+void IMU_ReadGyro(SPI_HandleTypeDef *hspi, float *gyro)
 {
     uint8_t tx[7] = {0};
     uint8_t rx[7] = {0};

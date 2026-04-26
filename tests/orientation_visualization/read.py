@@ -2,7 +2,7 @@
 
 import serial
 
-ser = serial.Serial('COM7', 115200, timeout=1)
+ser = serial.Serial('COM8', 115200, timeout=1)
 
 yaw, roll, pitch = 0, 0, 0
 

@@ -25,6 +25,8 @@
 #include "imu.h"
 #include "motion_processing.h"
 #include "flex_sensor.h"
+#include "utils.h"
+#include "static_gesture.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -45,12 +47,24 @@
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
 ADC_HandleTypeDef hadc2;
+ADC_HandleTypeDef hadc3;
 DMA_HandleTypeDef hdma_adc1;
 DMA_HandleTypeDef hdma_adc2;
+DMA_HandleTypeDef hdma_adc3;
 
 SPI_HandleTypeDef hspi1;
 
 /* USER CODE BEGIN PV */
+
+// Sensor state variables
+float accel[3] = { 0, 0, 0 };
+float gyro[3] = { 0, 0, 0 };
+float vel[3] = { 0, 0, 0 };
+float flex_thumb = 0;
+float flex_index = 0;
+float flex_middle = 0;
+
+StaticGesture current_gesture = NONE;
 
 /* USER CODE END PV */
 
@@ -61,6 +75,7 @@ static void MX_DMA_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_ADC2_Init(void);
 static void MX_SPI1_Init(void);
+static void MX_ADC3_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -104,28 +119,37 @@ int main(void)
   MX_ADC2_Init();
   MX_SPI1_Init();
   MX_USB_DEVICE_Init();
+  MX_ADC3_Init();
   /* USER CODE BEGIN 2 */
 
 
-  volatile uint32_t fsr_reg = 0;
-  volatile uint32_t flex_reg = 0;
-  uint32_t flex_lp = 0;
+  volatile uint16_t flex_reg1 = 0;				// Thumb
+  volatile uint16_t flex_reg2[2] = { 0, 0 };	// Index, middle
+  volatile uint16_t fsr_reg[3] = { 0, 0, 0 };	// Thumb, index, middle
   IMU_Init(&hspi1);
-  HAL_ADC_Start_DMA(&hadc1, &fsr_reg, 1);
-  HAL_ADC_Start_DMA(&hadc2, &flex_reg, 1);
+  HAL_ADC_Start_DMA(&hadc1, (uint32_t*)(&flex_reg1), 1);
+  HAL_ADC_Start_DMA(&hadc2, (uint32_t*)flex_reg2, 2);
+  HAL_ADC_Start_DMA(&hadc3, (uint32_t*)fsr_reg, 3);
 
   // for testing
   uint8_t mouseReport[4] = {0, 1, 1, 0};  // buttons,X,Y,wheel
-  int16_t accel[3] = { 0, 0, 0 };
-  float vel[3] = { 0, 0, 0 };
+
   float lp_vel[3] = { 0, 0, 0 };
-  int16_t prev[3] = { 0, 0, 0 };
+  float prev[3] = { 0, 0, 0 };
   float hp[3] = { 0, 0, 0 };
-  int16_t gyro[3] = { 0, 0, 0 };
+
   uint32_t prev_timestamp = 0;
   uint32_t current_timestamp = 0;
   uint32_t dt = 0;
   char buf[256];		// Temp, just for debug outputs
+
+  uint32_t tick;
+
+
+  // Event handlers
+  PeriodicEventHandler sendUpdates = NewPeriodicEvent(200);
+  PeriodicEventHandler pollUpdate = NewPeriodicEvent(10);
+  StaticEventHandler fingerGun = NewStaticEventHandler();
 
   /* USER CODE END 2 */
 
@@ -133,67 +157,89 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	// IMU test
+	 tick = HAL_GetTick();
 
-	IMU_ReadAccel(&hspi1, accel);
-	IMU_ReadGyro(&hspi1, gyro);
 
-	// Format: AX AY AZ GX GY GZ
-	//sprintf(buf, "%d %d %d %d %d %d\r\n", accel[0], accel[1], accel[2], gyro[0], gyro[1], gyro[2]);
-	//CDC_Transmit_FS((uint8_t*)buf, strlen(buf));
+	while (shouldTick(tick, &pollUpdate)) {
+		// Get elapsed time since last tick
+		current_timestamp = tick;
+		dt = current_timestamp - prev_timestamp;
+		prev_timestamp = current_timestamp;
 
-	// Get elapsed time since last tick
-	current_timestamp = HAL_GetTick();
-	dt = current_timestamp - prev_timestamp;
-	prev_timestamp = current_timestamp;
+		// Read IMU values and rotate
+		IMU_ReadAccel(&hspi1, accel);
+		IMU_ReadGyro(&hspi1, gyro);
 
-	// Testing out filtering
-	HPF(accel, prev, hp, 0.9);
-	AccelToVel(hp, vel, 0.8, dt);
-	VelLPF(vel, lp_vel, 0.35);
+		// Rotate to cancel out effect of rotated IMU
+		RotateData(&accel[0], &accel[1]);
+		RotateData(&gyro[0], &gyro[1]);
+
+		// Testing out filtering
+		HPF(accel, prev, hp, 0.95);
+		AccelToVel(hp, vel, 0.8, dt);
+		VelLPF(vel, lp_vel, 0.35);
+
+
+		// Record and remap flex sensor values
+		//	- Remapping values determined from personal tests/recordings. May vary based on hardware
+		float flex_thumb_raw = FlexRemap(flex_reg1, 985, 1075);
+		float flex_index_raw = FlexRemap(flex_reg2[0], 2300, 950);
+		float flex_middle_raw = FlexRemap(flex_reg2[1], 1800, 550);
+
+		// Apply lpf to flex sensor values
+		FlexLPF(flex_thumb_raw, &flex_thumb, 0.20);
+		FlexLPF(flex_index_raw, &flex_index, 0.20);
+		FlexLPF(flex_middle_raw, &flex_middle, 0.20);
+
+
+		// Handle static gestures
+		if (should_trigger_gesture(&fingerGun, is_finger_gun())) {
+			current_gesture = FINGER_GUN;
+			sprintf(buf, "gesture: %d\r\n", current_gesture);
+
+			CDC_Transmit_FS(buf, strlen(buf));
+		}
+	}
 
 	// Filter flex sensor
-	FlexLPF(&flex_reg, &flex_lp, 0.2);
+	//FlexLPF(&flex_reg, &flex_lp, 0.2);
 
-	mouseReport[0] = fsr_reg < 100;
-
-	if (flex_reg > 2600) {
-		// Test: Switch to scroll wheel
-		mouseReport[1] = 0;
-		mouseReport[2] = 0;
-		mouseReport[3] = (int8_t)(lp_vel[0] / 3.0);
-	}
-	else {
-		mouseReport[1] = (int8_t)(lp_vel[0]);
-		mouseReport[2] = (int8_t)(-lp_vel[1]);
-		mouseReport[3] = 0;
-	}
-
-	/*sprintf(buf, "accel_x: %d\r\n", accel[0]);
-	sprintf(buf + strlen(buf), "accel_y: %d\r\n", accel[1]);
-	sprintf(buf + strlen(buf), "accel_z: %d\r\n", accel[2]);
-	sprintf(buf + strlen(buf), "hp_x: %d\r\n", (int)(hp[0]));
-	sprintf(buf + strlen(buf), "hp_y: %d\r\n", (int)(hp[1]));
-	sprintf(buf + strlen(buf), "hp_z: %d\r\n", (int)(hp[2]));
-	sprintf(buf + strlen(buf), "vel_x: %d\r\n", vel[0]);
-	sprintf(buf + strlen(buf), "vel_y: %d\r\n", vel[1]);
-	sprintf(buf + strlen(buf), "vel_z: %d\r\n", vel[2]);
-	sprintf(buf + strlen(buf), "fsr: %d\r\n", fsr_reg);
-	sprintf(buf + strlen(buf), "flex: %d\r\n", flex_lp);*/
-
-
-	//CDC_Transmit_FS((uint8_t*)buf, strlen(buf));
-
-	//sprintf(buf, "x: %d\r\ny: %d\r\n", vel[0] / 10, vel[1] / 10);
-	//CDC_Transmit_FS((uint8_t*)buf, strlen(buf));
+	//mouseReport[0] = fsr_reg < 100;
 
 
 	// Mouse control test
-	USBD_HID_SendReport(&hUsbDeviceFS, mouseReport, 4);
+	//USBD_HID_SendReport(&hUsbDeviceFS, mouseReport, 4);
 
-	HAL_Delay(20);
+	//HAL_Delay(20);
 
 
+	while (shouldTick(tick, &sendUpdates)) {
+		// Accel
+		/*sprintf(buf, "accel_x: %f\r\n", accel[0]);
+		sprintf(buf + strlen(buf), "accel_y: %f\r\n", accel[1]);
+		sprintf(buf + strlen(buf), "accel_z: %f\r\n", accel[2]);
+
+		sprintf(buf + strlen(buf), "hp_x: %f\r\n", hp[0]);
+		sprintf(buf + strlen(buf), "hp_y: %f\r\n", hp[1]);
+		sprintf(buf + strlen(buf), "hp_z: %f\r\n", hp[2]);
+		*/
+		sprintf(buf, "gyro_x: %f\r\n", gyro[0]);
+		sprintf(buf + strlen(buf), "gyro_y: %f\r\n", gyro[1]);
+		sprintf(buf + strlen(buf), "gyro_z: %f\r\n", gyro[2]);
+
+		// Flex sensors
+		sprintf(buf + strlen(buf), "flex1: %f\r\n", flex_thumb);
+		sprintf(buf + strlen(buf), "flex2: %f\r\n", flex_index);
+		sprintf(buf + strlen(buf), "flex3: %f\r\n", flex_middle);
+
+		// Touch sensors
+		//sprintf(buf + strlen(buf), "fsr1: %d\r\n", fsr_reg[0]);
+		//sprintf(buf + strlen(buf), "fsr2: %d\r\n", fsr_reg[1]);
+		//sprintf(buf + strlen(buf), "fsr3: %d\r\n", fsr_reg[2]);
+
+
+		CDC_Transmit_FS((uint8_t*)buf, strlen(buf));
+	}
 
 
 	//WHOAMI response test:
@@ -286,7 +332,7 @@ static void MX_ADC1_Init(void)
   /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
   */
   hadc1.Instance = ADC1;
-  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV6;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
   hadc1.Init.ScanConvMode = DISABLE;
   hadc1.Init.ContinuousConvMode = ENABLE;
@@ -296,7 +342,7 @@ static void MX_ADC1_Init(void)
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc1.Init.NbrOfConversion = 1;
   hadc1.Init.DMAContinuousRequests = ENABLE;
-  hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+  hadc1.Init.EOCSelection = ADC_EOC_SEQ_CONV;
   if (HAL_ADC_Init(&hadc1) != HAL_OK)
   {
     Error_Handler();
@@ -304,9 +350,9 @@ static void MX_ADC1_Init(void)
 
   /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
   */
-  sConfig.Channel = ADC_CHANNEL_1;
+  sConfig.Channel = ADC_CHANNEL_10;
   sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_56CYCLES;
+  sConfig.SamplingTime = ADC_SAMPLETIME_480CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -338,18 +384,79 @@ static void MX_ADC2_Init(void)
   /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
   */
   hadc2.Instance = ADC2;
-  hadc2.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV6;
+  hadc2.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc2.Init.Resolution = ADC_RESOLUTION_12B;
-  hadc2.Init.ScanConvMode = DISABLE;
+  hadc2.Init.ScanConvMode = ENABLE;
   hadc2.Init.ContinuousConvMode = ENABLE;
   hadc2.Init.DiscontinuousConvMode = DISABLE;
   hadc2.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
   hadc2.Init.ExternalTrigConv = ADC_SOFTWARE_START;
   hadc2.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-  hadc2.Init.NbrOfConversion = 1;
+  hadc2.Init.NbrOfConversion = 2;
   hadc2.Init.DMAContinuousRequests = ENABLE;
-  hadc2.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+  hadc2.Init.EOCSelection = ADC_EOC_SEQ_CONV;
   if (HAL_ADC_Init(&hadc2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
+  */
+  sConfig.Channel = ADC_CHANNEL_8;
+  sConfig.Rank = 1;
+  sConfig.SamplingTime = ADC_SAMPLETIME_480CYCLES;
+  if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
+  */
+  sConfig.Channel = ADC_CHANNEL_3;
+  sConfig.Rank = 2;
+  if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN ADC2_Init 2 */
+
+  /* USER CODE END ADC2_Init 2 */
+
+}
+
+/**
+  * @brief ADC3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_ADC3_Init(void)
+{
+
+  /* USER CODE BEGIN ADC3_Init 0 */
+
+  /* USER CODE END ADC3_Init 0 */
+
+  ADC_ChannelConfTypeDef sConfig = {0};
+
+  /* USER CODE BEGIN ADC3_Init 1 */
+
+  /* USER CODE END ADC3_Init 1 */
+
+  /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
+  */
+  hadc3.Instance = ADC3;
+  hadc3.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc3.Init.Resolution = ADC_RESOLUTION_12B;
+  hadc3.Init.ScanConvMode = ENABLE;
+  hadc3.Init.ContinuousConvMode = ENABLE;
+  hadc3.Init.DiscontinuousConvMode = DISABLE;
+  hadc3.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+  hadc3.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+  hadc3.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc3.Init.NbrOfConversion = 3;
+  hadc3.Init.DMAContinuousRequests = ENABLE;
+  hadc3.Init.EOCSelection = ADC_EOC_SEQ_CONV;
+  if (HAL_ADC_Init(&hadc3) != HAL_OK)
   {
     Error_Handler();
   }
@@ -359,13 +466,31 @@ static void MX_ADC2_Init(void)
   sConfig.Channel = ADC_CHANNEL_2;
   sConfig.Rank = 1;
   sConfig.SamplingTime = ADC_SAMPLETIME_56CYCLES;
-  if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
+  if (HAL_ADC_ConfigChannel(&hadc3, &sConfig) != HAL_OK)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN ADC2_Init 2 */
 
-  /* USER CODE END ADC2_Init 2 */
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
+  */
+  sConfig.Channel = ADC_CHANNEL_1;
+  sConfig.Rank = 2;
+  if (HAL_ADC_ConfigChannel(&hadc3, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
+  */
+  sConfig.Channel = ADC_CHANNEL_12;
+  sConfig.Rank = 3;
+  if (HAL_ADC_ConfigChannel(&hadc3, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN ADC3_Init 2 */
+
+  /* USER CODE END ADC3_Init 2 */
 
 }
 
@@ -420,6 +545,9 @@ static void MX_DMA_Init(void)
   /* DMA2_Stream0_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
+  /* DMA2_Stream1_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA2_Stream1_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA2_Stream1_IRQn);
   /* DMA2_Stream2_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA2_Stream2_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA2_Stream2_IRQn);
@@ -440,6 +568,7 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOH_CLK_ENABLE();
+  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
 

@@ -18,7 +18,7 @@
 #define CS_HIGH() HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_SET)
 
 uint8_t IMU_Init(SPI_HandleTypeDef *hspi);
-void IMU_ReadAccel(SPI_HandleTypeDef *hspi, int16_t *accel);
-void IMU_ReadGyro(SPI_HandleTypeDef *hspi, int16_t *gyro);
+void IMU_ReadAccel(SPI_HandleTypeDef *hspi, float *accel);
+void IMU_ReadGyro(SPI_HandleTypeDef *hspi, float *gyro);
 
 #endif /* INC_IMU_H_ */

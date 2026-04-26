@@ -10,19 +10,24 @@
 
 #define DIM 3
 
+// Rotates incoming data (Because our IMU is rotated 45 degrees)
+void RotateData(float* x, float* y) {
+	float temp_x = *x;
+	*x = 0.70710678119 * (*x) + 0.70710678119 * (*y);
+	*y = -0.70710678119 * temp_x + 0.70710678119 * (*y);
+}
+
 ////// IMU PROCESSING ///////
 
 // First step: Filter accel data to try to remove gravity component
 //	- accel: Raw accelerometer data
 //	- prev: Previous raw accelerometer value
 //	- hp: Previous calclulated HPF value. Output stored in this array
-void HPF(int16_t* accel, int16_t* prev, float* hp, float alpha) {
+void HPF(float* accel, float* prev, float* hp, float alpha) {
 	for (uint8_t dim = 0; dim < DIM; dim++) {
-		// Widening to prevent overflow
-		float diff = (float) accel[dim] - (float) prev[dim];
+		float diff = accel[dim] - prev[dim];
 
-	    hp[dim] = diff;
-		//hp[dim] = (int16_t)(alpha * hp[dim] + accel[dim] - prev[dim]);
+		hp[dim] = (int16_t)(alpha * hp[dim] + diff);
 		prev[dim] = accel[dim];
 	}
 }
@@ -42,3 +47,4 @@ void VelLPF(float* vel, float* lp_vel, float alpha) {
 		lp_vel[dim] = alpha * vel[dim] + (1 - alpha) * lp_vel[dim];
 	}
 }
+
