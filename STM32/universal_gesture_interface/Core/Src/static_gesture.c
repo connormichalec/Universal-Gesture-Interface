@@ -6,6 +6,8 @@
  */
 
 #include "static_gesture.h"
+#include "keyboard_mouse.h"
+extern USBD_HandleTypeDef hUsbDeviceFS;
 
 #define MAX_ACCUMULATION 25
 #define TRIGGER_THRESHOLD 15
@@ -58,7 +60,7 @@ void send_gesture_msg(StaticGesture gesture_id) {
 	msg.gesture_id = gesture_id;
 
 	memcpy(&buf, &msg, sizeof(msg));
-	CDC_Transmit_FS(buf, sizeof(msg));
+	//USBD_HID_SendRaw(&hUsbDeviceFS, buf, sizeof(msg));
 }
 
 uint8_t is_finger_gun() {
