@@ -27,6 +27,7 @@
 #include "flex_sensor.h"
 #include "utils.h"
 #include "static_gesture.h"
+#include "communication.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -60,7 +61,10 @@ SPI_HandleTypeDef hspi1;
 #define KEYBOARD_PREFIX 0x02
 
 // Sensor state variables
+float raw_accel[3] = { 0, 0, 0 };
+float total_accel[3] = { 0, 0, 0 };
 float accel[3] = { 0, 0, 0 };
+float grav[3] = { 0, 0, -1 };
 float gyro[3] = { 0, 0, 0 };
 float vel[3] = { 0, 0, 0 };
 float flex_thumb = 0;
@@ -508,14 +512,14 @@ int main(void)
   uint32_t prev_timestamp = 0;
   uint32_t current_timestamp = 0;
   uint32_t dt = 0;
-  char buf[256];		// Temp, just for debug outputs
+  char buf[64];		// Temp, just for debug outputs
 
   uint32_t tick;
 
 
   // Event handlers
-  PeriodicEventHandler sendUpdates = NewPeriodicEvent(200);
-  PeriodicEventHandler pollUpdate = NewPeriodicEvent(10);
+  PeriodicEventHandler sendUpdates = NewPeriodicEvent(50);
+  PeriodicEventHandler pollUpdate = NewPeriodicEvent(1);
   StaticEventHandler fingerGun = NewStaticEventHandler();
 
   /* USER CODE END 2 */
@@ -534,18 +538,27 @@ int main(void)
 		prev_timestamp = current_timestamp;
 
 		// Read IMU values and rotate
-		IMU_ReadAccel(&hspi1, accel);
+		IMU_ReadAccel(&hspi1, raw_accel);
 		IMU_ReadGyro(&hspi1, gyro);
 
 		// Rotate to cancel out effect of rotated IMU
-		RotateData(&accel[0], &accel[1]);
+		RotateData(&raw_accel[0], &raw_accel[1]);
 		RotateData(&gyro[0], &gyro[1]);
 
 		// Testing out filtering
-		HPF(accel, prev, hp, 0.95);
-		AccelToVel(hp, vel, 0.8, dt);
-		VelLPF(vel, lp_vel, 0.35);
+		AccelLPF(raw_accel, total_accel, 0.05);
 
+		// Gravity calculation
+		RotateGravity(grav, gyro, 0.001);
+		StabilizeGravity(grav, total_accel, 0.005);
+
+		// Subtract gravity from acceleration
+		accel[0] = total_accel[0] - grav[0];
+		accel[1] = total_accel[1] - grav[1];
+		accel[2] = total_accel[2] - grav[2];
+
+		AccelToVel(accel, vel, 0.98, 0.001f);
+		//VelLPF(vel, lp_vel, 0.25);
 
 		// Record and remap flex sensor values
 		//	- Remapping values determined from personal tests/recordings. May vary based on hardware
@@ -554,18 +567,18 @@ int main(void)
 		float flex_middle_raw = FlexRemap(flex_reg2[1], 1800, 550);
 
 		// Apply lpf to flex sensor values
-		FlexLPF(flex_thumb_raw, &flex_thumb, 0.20);
-		FlexLPF(flex_index_raw, &flex_index, 0.20);
-		FlexLPF(flex_middle_raw, &flex_middle, 0.20);
+		FlexLPF(flex_thumb_raw, &flex_thumb, 0.05);
+		FlexLPF(flex_index_raw, &flex_index, 0.05);
+		FlexLPF(flex_middle_raw, &flex_middle, 0.05);
 
 
 		// Handle static gestures
-		if (should_trigger_gesture(&fingerGun, is_finger_gun())) {
+		/*if (should_trigger_gesture(&fingerGun, is_finger_gun())) {
 			current_gesture = FINGER_GUN;
 			sprintf(buf, "gesture: %d\r\n", current_gesture);
 
 			//CDC_Transmit_FS(buf, strlen(buf));
-		}
+		}*/
 	}
 
 	// Filter flex sensor
@@ -583,39 +596,41 @@ int main(void)
 	//HID_SendKey(KEY_MOD_LSHIFT, KEY_A); //sends key as fast as possible without blocking
 
 	//OR: Manually trigger press/release:
-	HID_KeyPress(0, KEY_W);
-	HAL_Delay(15);
-	HID_KeyRelease();
-	HAL_Delay(15);
+	//HID_KeyPress(0, KEY_W);
+	//HAL_Delay(15);
+	//HID_KeyRelease();
+	//HAL_Delay(15);
 	// Send mouse movement:
-	HID_SendMouse(0, 1, 1, 0);
+	//HID_SendMouse(0, 1, 1, 0);
 
+	// Send sensor updates at 100Hz
 	while (shouldTick(tick, &sendUpdates)) {
-		// Accel
-		/*sprintf(buf, "accel_x: %f\r\n", accel[0]);
-		sprintf(buf + strlen(buf), "accel_y: %f\r\n", accel[1]);
-		sprintf(buf + strlen(buf), "accel_z: %f\r\n", accel[2]);
+		SensorUpdatePacket msg;
+		msg.topic = 0;
+		msg.accel_x = accel[0];
+		msg.accel_y = accel[1];
+		msg.accel_z = accel[2];
+		msg.grav_x = grav[0];
+		msg.grav_y = grav[1];
+		msg.grav_z = grav[2];
+		msg.gyro_x = gyro[0];
+		msg.gyro_y = gyro[1];
+		msg.gyro_z = gyro[2];
+		msg.flex_thumb = flex_thumb;
+		msg.flex_index = flex_index;
+		msg.flex_middle = flex_middle;
+		msg.fsr_thumb = fsr_reg[0];
+		msg.fsr_index = fsr_reg[1];
+		msg.fsr_middle = fsr_reg[2];
 
-		sprintf(buf + strlen(buf), "hp_x: %f\r\n", hp[0]);
-		sprintf(buf + strlen(buf), "hp_y: %f\r\n", hp[1]);
-		sprintf(buf + strlen(buf), "hp_z: %f\r\n", hp[2]);
-		*/
-		sprintf(buf, "gyro_x: %f\r\n", gyro[0]);
-		sprintf(buf + strlen(buf), "gyro_y: %f\r\n", gyro[1]);
-		sprintf(buf + strlen(buf), "gyro_z: %f\r\n", gyro[2]);
+		memcpy(buf, &msg, sizeof(msg));
 
-		// Flex sensors
-		sprintf(buf + strlen(buf), "flex1: %f\r\n", flex_thumb);
-		sprintf(buf + strlen(buf), "flex2: %f\r\n", flex_index);
-		sprintf(buf + strlen(buf), "flex3: %f\r\n", flex_middle);
-
-		// Touch sensors
-		//sprintf(buf + strlen(buf), "fsr1: %d\r\n", fsr_reg[0]);
-		//sprintf(buf + strlen(buf), "fsr2: %d\r\n", fsr_reg[1]);
-		//sprintf(buf + strlen(buf), "fsr3: %d\r\n", fsr_reg[2]);
+		CDC_Transmit_FS((uint8_t*)buf, sizeof(msg));
 
 
-		//CDC_Transmit_FS((uint8_t*)buf, strlen(buf));
+		//int8_t mouseReport[4] = {0, (int8_t) {vel[0] * 20000.0f}, (int8_t) {vel[1] * 20000.0f}, 0};
+		//int8_t mouseReport[4] = {0, 1, 1, 0};
+		//USBD_HID_SendReport(&hUsbDeviceFS, mouseReport, 4);
 	}
 
 

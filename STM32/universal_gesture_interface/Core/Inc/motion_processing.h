@@ -11,8 +11,11 @@
 #define INC_MOTION_PROCESSING_H_
 
 void RotateData(float* x, float* y);
+void AccelLPF(float* raw_data, float* accel, float alpha);
 void HPF(float* accel, float* prev, float* hp, float alpha);
 void AccelToVel(float* accel, float* vel, float drag, float dt);
 void VelLPF(float* vel, float* lp_vel, float alpha);
+void RotateGravity(float* grav, float* gyro, float dt);
+void StabilizeGravity(float* grav, float* accel, float alpha);
 
 #endif /* INC_MOTION_PROCESSING_H_ */

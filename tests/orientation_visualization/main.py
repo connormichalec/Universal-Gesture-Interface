@@ -53,7 +53,7 @@ while running:
     readTick()
     for key in inputs:
         val = inputs[key]
-        print(key, val)
+        #print(key, val)
 
         if key == 'accel_x':
             accel_x = float(val)

@@ -17,5 +17,6 @@ typedef struct {
 
 uint8_t shouldTick(uint32_t tick, PeriodicEventHandler *handler);
 PeriodicEventHandler NewPeriodicEvent(uint32_t period);
+void cross3(float a[3], float b[3], float out[3]);
 
 #endif /* INC_UTILS_H_ */

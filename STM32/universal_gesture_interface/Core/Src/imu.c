@@ -74,6 +74,8 @@ uint8_t IMU_Init(SPI_HandleTypeDef *hspi)
     return 1; // success
 }
 
+
+#define GRAVITY_SCALE -0.000118272664333		// Normalizes to 1G, determined experimentally so may not be 100% accurate
 void IMU_ReadAccel(SPI_HandleTypeDef *hspi, float *accel)
 {
     uint8_t tx[7] = {0};
@@ -89,8 +91,13 @@ void IMU_ReadAccel(SPI_HandleTypeDef *hspi, float *accel)
     accel[0] = (int16_t)((rx[2] << 8) | rx[1]);
     accel[1] = (int16_t)((rx[4] << 8) | rx[3]);
     accel[2] = (int16_t)((rx[6] << 8) | rx[5]);
+
+    accel[0] *= GRAVITY_SCALE;
+    accel[1] *= GRAVITY_SCALE;
+    accel[2] *= GRAVITY_SCALE;
 }
 
+#define GYRO_SCALE -0.0012217304764f
 void IMU_ReadGyro(SPI_HandleTypeDef *hspi, float *gyro)
 {
     uint8_t tx[7] = {0};
@@ -107,4 +114,8 @@ void IMU_ReadGyro(SPI_HandleTypeDef *hspi, float *gyro)
     gyro[0] = (int16_t)(rx[2] << 8 | rx[1]); // X
     gyro[1] = (int16_t)(rx[4] << 8 | rx[3]); // Y
     gyro[2] = (int16_t)(rx[6] << 8 | rx[5]); // Z
+
+    gyro[0] *= GYRO_SCALE;
+    gyro[1] *= GYRO_SCALE;
+    gyro[2] *= GYRO_SCALE;
 }

@@ -7,9 +7,9 @@
 
 #include "static_gesture.h"
 
-#define MAX_ACCUMULATION 7
-#define TRIGGER_THRESHOLD 4
-#define TRIGGER_DEACTIVATION_THRESHOLD 1
+#define MAX_ACCUMULATION 20
+#define TRIGGER_THRESHOLD 15
+#define TRIGGER_DEACTIVATION_THRESHOLD 7
 
 extern float accel[3];
 extern float gyro[3];
