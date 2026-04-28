@@ -368,6 +368,9 @@ static uint8_t    kb_mod        = 0;
 static uint8_t    kb_key        = 0;
 static uint8_t    kb_pending    = 0;
 
+#define HID_REPORT_ID_RAW               0x03U
+#define HID_RAW_REPORT_SIZE             64U     /* ID + 63 bytes data */
+
 
 
 #define HOLD_TIME 20
@@ -455,6 +458,16 @@ uint8_t HID_SendMouse(uint8_t buttons, int8_t x, int8_t y, int8_t wheel)
 }
 
 
+
+
+uint8_t USBD_HID_SendRaw(USBD_HandleTypeDef *pdev, uint8_t *data, uint8_t len)
+{
+  static uint8_t report[HID_RAW_REPORT_SIZE];
+  memset(report, 0, sizeof(report));
+  report[0] = HID_REPORT_ID_RAW;
+  memcpy(&report[1], data, (len > 63U) ? 63U : len);
+  return USBD_HID_SendReport(pdev, report, HID_RAW_REPORT_SIZE);
+}
 
 /* USER CODE END 0 */
 
@@ -623,7 +636,20 @@ int main(void)
 	//HID_KeyRelease();
 	//HAL_Delay(15);
 	// Send mouse movement:
-	//HID_SendMouse(0, 1, 1, 0);
+	HID_SendMouse(0, 1, 1, 0);
+
+	/* FOR HID DATA SEND:*/
+	// Send a string
+	char msg[63];
+	sprintf(msg, "balls");
+	USBD_HID_SendRaw(&hUsbDeviceFS, (uint8_t*)msg, strlen(msg));
+
+	// Or send raw bytes
+	//uint8_t data[] = {0xAB, 0xCD, 0xEF};
+	//USBD_HID_SendRaw(&hUsbDeviceFS, data, sizeof(data));
+
+
+
 
 	// Send sensor updates at 100Hz
 	while (shouldTick(tick, &sendUpdates)) {
@@ -647,7 +673,7 @@ int main(void)
 
 		memcpy(buf, &msg, sizeof(msg));
 
-		CDC_Transmit_FS((uint8_t*)buf, sizeof(msg));
+		//CDC_Transmit_FS((uint8_t*)buf, sizeof(msg));
 
 
 		//int8_t mouseReport[4] = {0, (int8_t) {vel[0] * 8000.0f}, (int8_t) {vel[1] * 8000.0f}, 0};
