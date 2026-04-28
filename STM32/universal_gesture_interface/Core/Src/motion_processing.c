@@ -59,7 +59,7 @@ void VelLPF(float* vel, float* lp_vel, float alpha) {
 // Rotates gravity vector then normalizes it
 void RotateGravity(float* grav, float* gyro, float dt) {
 	float rotated_grav[3];
-	cross3(gyro, grav, rotated_grav);
+	cross3(grav, gyro, rotated_grav);
 	rotated_grav[0] *= dt;
 	rotated_grav[1] *= dt;
 	rotated_grav[2] *= dt;

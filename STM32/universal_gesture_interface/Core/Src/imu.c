@@ -97,7 +97,7 @@ void IMU_ReadAccel(SPI_HandleTypeDef *hspi, float *accel)
     accel[2] *= GRAVITY_SCALE;
 }
 
-#define GYRO_SCALE -0.0012217304764f
+#define GYRO_SCALE 0.0012217304764f
 void IMU_ReadGyro(SPI_HandleTypeDef *hspi, float *gyro)
 {
     uint8_t tx[7] = {0};

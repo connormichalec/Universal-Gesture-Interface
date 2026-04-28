@@ -27,6 +27,7 @@
 #include "flex_sensor.h"
 #include "utils.h"
 #include "static_gesture.h"
+#include "dynamic_gesture.h"
 #include "communication.h"
 /* USER CODE END Includes */
 
@@ -518,9 +519,13 @@ int main(void)
 
 
   // Event handlers
-  PeriodicEventHandler sendUpdates = NewPeriodicEvent(50);
+  PeriodicEventHandler sendUpdates = NewPeriodicEvent(10);
   PeriodicEventHandler pollUpdate = NewPeriodicEvent(1);
-  StaticEventHandler fingerGun = NewStaticEventHandler();
+  StaticEventHandler fingerGunHandler = NewStaticEventHandler();
+  StaticEventHandler thumbsUpHandler = NewStaticEventHandler();
+  StaticEventHandler thumbsMiddleHandler = NewStaticEventHandler();
+  StaticEventHandler thumbsDownHandler = NewStaticEventHandler();
+  SpikeTrigger bangHandler = NewSpikeTrigger(0.05, 0.8);
 
   /* USER CODE END 2 */
 
@@ -546,11 +551,11 @@ int main(void)
 		RotateData(&gyro[0], &gyro[1]);
 
 		// Testing out filtering
-		AccelLPF(raw_accel, total_accel, 0.05);
+		AccelLPF(raw_accel, total_accel, 0.5);
 
 		// Gravity calculation
 		RotateGravity(grav, gyro, 0.001);
-		StabilizeGravity(grav, total_accel, 0.005);
+		StabilizeGravity(grav, total_accel, 0.1);
 
 		// Subtract gravity from acceleration
 		accel[0] = total_accel[0] - grav[0];
@@ -558,7 +563,7 @@ int main(void)
 		accel[2] = total_accel[2] - grav[2];
 
 		AccelToVel(accel, vel, 0.98, 0.001f);
-		//VelLPF(vel, lp_vel, 0.25);
+		VelLPF(vel, lp_vel, 0.25);
 
 		// Record and remap flex sensor values
 		//	- Remapping values determined from personal tests/recordings. May vary based on hardware
@@ -573,12 +578,29 @@ int main(void)
 
 
 		// Handle static gestures
-		/*if (should_trigger_gesture(&fingerGun, is_finger_gun())) {
+		if (should_trigger_gesture(&fingerGunHandler, is_finger_gun())) {
 			current_gesture = FINGER_GUN;
-			sprintf(buf, "gesture: %d\r\n", current_gesture);
+			send_gesture_msg(FINGER_GUN);
+		}
 
-			//CDC_Transmit_FS(buf, strlen(buf));
-		}*/
+		if (should_trigger_gesture(&thumbsUpHandler, is_thumbs_up())) {
+			current_gesture = THUMBS_UP;
+			send_gesture_msg(THUMBS_UP);
+		}
+
+		if (should_trigger_gesture(&thumbsMiddleHandler, is_thumbs_middle())) {
+			current_gesture = THUMBS_MIDDLE;
+			send_gesture_msg(THUMBS_MIDDLE);
+		}
+
+		if (should_trigger_gesture(&thumbsDownHandler, is_thumbs_down())) {
+			current_gesture = THUMBS_DOWN;
+			send_gesture_msg(THUMBS_DOWN);
+		}
+
+		if (should_trigger_spike_event(&bangHandler, gyro[2] * 0.001)) {
+			send_gesture_msg(BANG);
+		}
 	}
 
 	// Filter flex sensor
@@ -607,9 +629,9 @@ int main(void)
 	while (shouldTick(tick, &sendUpdates)) {
 		SensorUpdatePacket msg;
 		msg.topic = 0;
-		msg.accel_x = accel[0];
-		msg.accel_y = accel[1];
-		msg.accel_z = accel[2];
+		msg.accel_x = lp_vel[0];
+		msg.accel_y = lp_vel[1];
+		msg.accel_z = lp_vel[2];
 		msg.grav_x = grav[0];
 		msg.grav_y = grav[1];
 		msg.grav_z = grav[2];
@@ -628,8 +650,7 @@ int main(void)
 		CDC_Transmit_FS((uint8_t*)buf, sizeof(msg));
 
 
-		//int8_t mouseReport[4] = {0, (int8_t) {vel[0] * 20000.0f}, (int8_t) {vel[1] * 20000.0f}, 0};
-		//int8_t mouseReport[4] = {0, 1, 1, 0};
+		//int8_t mouseReport[4] = {0, (int8_t) {vel[0] * 8000.0f}, (int8_t) {vel[1] * 8000.0f}, 0};
 		//USBD_HID_SendReport(&hUsbDeviceFS, mouseReport, 4);
 	}
 
