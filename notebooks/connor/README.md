@@ -98,5 +98,38 @@ Kobe has already started writing code to interface with it, but upon testing the
 
 ![IMG_6147](https://github.com/user-attachments/assets/206c3add-11e5-4471-b09e-6af6ca47b2f2)
 
+## 2026-03-30 - PCB Round 4
+
+Upon discovery of the issue with our PCB's IMU connections, I had to quickly make adjustments to the schematic. PCB round 4 was already due so I reached out to Lukas and he said we could still submit if we were fast. I altered the PCB schematic from round 3 to just change the pads we utilized for our IMU. Unfortunately, our mistke meant our round 3 PCB was useless so we would have to rely on our "surgically altered" testboard PCB until round 4 came. 
+
+In the end, I got the schematic altered and sent to Kenobi to change around the layout so we should get our PCB just barely in time.
+
+
+## 2026-04-18 - Final board assembly attempt 1
+
+With our final board arriving, it was now my job to get it operational so we could begin full scale implementation tests.
+
+The biggest difficulty again was soldering the IMU, requriing careful application with the heat gun and precise plcaement. This was the part that made me most nervous because If I messed up the schematic any more than I had already, we would not be able to get an additional PCB in time.
+
+Overall the soldering went quite poorly at first. The lab was very busy from people finishing up so I had to use soldering irons with tips way to big for the process. After hours of soldering we had a result that was suboptimal as seen below:
+
+<img width="4284" height="5712" alt="IMG_6376" src="https://github.com/user-attachments/assets/7719387a-30b1-41a4-81d9-d1cc20dae004" />
+
+Unfortunately when going to test it, it would not program. This was very frustrating and in the troubleshooting process I ended up burning out the MCU. 
+
+## 2026-04-19 - Final board assembly attempt 2
+
+With the failures of the first attempt, I decided to wait until a time when the lab would be more empty for access to more equipment. I used the last MCU on a blank PCB and starting soldering eveyrthing again from scratch. Much to my relief, the board programmed! The soldering job was a lot better than last time:
+
+<img width="4284" height="5712" alt="IMG_6377" src="https://github.com/user-attachments/assets/8317a7dd-886e-4fdf-9421-3b4f29b47491" />
+
+Unfortunately the IMU did not work at first which made me very nervous, but with a reflow it ended up working successfully!
+
+<img width="4284" height="5712" alt="IMG_6378" src="https://github.com/user-attachments/assets/70aeb682-ac16-4fa2-86c7-41a458e50b02" />
+
+
+
+
+
 
 
