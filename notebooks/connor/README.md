@@ -127,9 +127,26 @@ Unfortunately the IMU did not work at first which made me very nervous, but with
 
 <img width="4284" height="5712" alt="IMG_6378" src="https://github.com/user-attachments/assets/70aeb682-ac16-4fa2-86c7-41a458e50b02" />
 
+## 2026-04-26 - Keyboard control over HID
 
+Something that we deemed to be an ideal feature to have would be keyboard control over our glove. My goal here was to implement this.
 
+Keyboard control is less useful than mouse control, but could be used in conjugtion with it for certain functions like using the glove to navigate in a game, programming macros, or using the glove to switch through slides in a presentation via programmed arrow keys. It was certainly not as easy to implement keyboard control as it was to implement mouse control. The STM32 offers a HID device class with many default options, including a mouse driver. In order to implment keyboard control, I had to specify a device report "descriptor". The descriptor helps define the payload of the data being sent to the computer and is part of a larger scheme as seen below:
 
+<img width="404" height="327" alt="image" src="https://github.com/user-attachments/assets/684a5ed7-de8e-4ffb-92bf-98c782cd04b7" /> (Zilog.com, see below for link)
+
+ I had to research quite a bit to understand this and utilized the resources below to build an understanding and help implement the keyboard report descriptor. Here are some resources that helped:
+ * https://docs.kernel.org/hid/hidintro.html
+ * https://www.zilog.com/docs/AN0416.pdf
+ * https://community.st.com/t5/stm32-mcus/implementing-a-usb-hid-keyboard-device-from-a-usb-hid-mouse/ta-p/793535
+
+It took quite a bit of troubleshooting to get this working, primarilly getting the HID repotr descriptor right. Eventually I was successful and I had a keyboard iterface that we could utilize for gesture controls.
+
+## 2026-04-28 - HID/serial dual mode
+
+This is the final week we are at the point where we have something that works well, especially on the hardware side, but are trying to polish it into a finished product, especially getting gesture detection fully working. As part of this, we deemed it useful to be able to communicate in HID mode as well as serial mode simaltaenously. In the past, we would have to pre-configure this every time we flashed the board, electing to utilize the USB interface as a serial device or a HID device. Developing a way to communicate over serial as well as acting as a HID device would allow us to better gain live insight into how Kobe's gesture detection algorithm was working and what we can do to imrpove it.
+
+The way this was achieved was by modifying the report descriptor described above. In addition to the report descriptors mouse and keyboard components, I added an additional section which could be used to send a generic data payload. This worked well, and we unfortunately ultimately did not use it in our final demo, worked as solid ground for continuing the project in the future.
 
 
 
